@@ -1,2 +1,2 @@
 # Harvester Module for BlueBottle Platform
-* Integrated with Librairy https://github.com/librairy 
+* Integrated in Librairy Framework https://github.com/librairy 
