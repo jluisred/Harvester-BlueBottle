@@ -5,7 +5,7 @@
  *
  */
 
-package org.librairy.intro;
+package org.librairy.bluebottle;
 
 import org.librairy.model.domain.resources.Resource;
 import org.librairy.storage.UDM;

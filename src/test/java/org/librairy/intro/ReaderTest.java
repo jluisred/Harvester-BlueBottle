@@ -11,6 +11,7 @@ import es.cbadenes.lab.test.IntegrationTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
+import org.librairy.bluebottle.Reader;
 import org.librairy.model.domain.resources.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

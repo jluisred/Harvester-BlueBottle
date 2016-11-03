@@ -10,12 +10,12 @@
     <modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.librairy</groupId>
-    <artifactId>librairy-intro</artifactId>
+    <artifactId>harvester-bluebottle</artifactId>
     <version>0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>intro</name>
-    <description>librairy introduction</description>
-    <url>https://github.com/librairy/intro</url>
+    <name>harvester-bluebottle</name>
+    <description>Harvester Bluebottle</description>
+    <url>https://github.com/jluisred/Harvester-BlueBottle</url>
     <organization>
         <name>Ontology Engineering Group</name>
         <url>http://www.oeg-upm.net</url>
@@ -28,9 +28,14 @@
     </licenses>
     <inceptionYear>2016</inceptionYear>
     <scm>
-        <url>https://github.com/librairy/intro</url>
+        <url>https://github.com/jluisred/Harvester-BlueBottle</url>
     </scm>
     <developers>
+        <developer>
+            <id>jluisred</id>
+            <name>José Luis Redondo García</name>
+            <email>jlredondo at fi.upm.es</email>
+        </developer>
         <developer>
             <id>cbadenes</id>
             <name>Carlos Badenes Olmedo</name>
@@ -50,6 +55,15 @@
             </snapshots>
         </repository>
 
+        <repository>
+            <id>librairy-test-repo</id>
+            <url>https://raw.github.com/cbadenes/test-utils/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+
     </repositories>
 
     <properties>
@@ -58,14 +72,17 @@
         <project.java.version>1.8</project.java.version>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.plugin.version>3.3</maven.compiler.plugin.version>
-
-        <librairy.boot.version>0.28</librairy.boot.version>
+        <librairy.boot.version>0.32</librairy.boot.version>
         <junit.version>4.12</junit.version>
         <spring.version>4.2.7.RELEASE</spring.version>
         <testutils.version>1.0.0</testutils.version>
         <logback.version>1.1.3</logback.version>
         <!-- spring-boot bug-->
         <cassandra-driver.version>3.0.3</cassandra-driver.version>
+        
+        <!-- swagger-->
+        <springfox-version>2.5.0</springfox-version>
+        
     </properties>
 
     <parent>
@@ -109,6 +126,7 @@
                 <artifactId>test-utils</artifactId>
                 <version>${testutils.version}</version>
             </dependency>
+            
 
             <!-- Log Libraries -->
             <dependency>
@@ -155,7 +173,7 @@
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
+	<artifactId>logback-core</artifactId>
         </dependency>
 
         <!-- Spring -->
@@ -168,11 +186,23 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        
+        <!-- Swagger -->
+	    <dependency>
+	            <groupId>io.springfox</groupId>
+	            <artifactId>springfox-swagger2</artifactId>
+	            <version>${springfox-version}</version>
+	    </dependency>
+	            <dependency>
+	            <groupId>io.springfox</groupId>
+	            <artifactId>springfox-swagger-ui</artifactId>
+	            <version>${springfox-version}</version>
+	        </dependency>
 
     </dependencies>
 
     <build>
-        <finalName>librairy-intro</finalName>
+        <finalName>harvester-bluebottle</finalName>
         <plugins>
             <!-- Maven Compiler Plugin -->
             <plugin>

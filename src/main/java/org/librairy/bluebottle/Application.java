@@ -5,8 +5,9 @@
  *
  */
 
-package org.librairy.intro;
+package org.librairy.bluebottle;
 
+import org.librairy.bluebottle.load.BlueBottleLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -14,10 +15,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Created on 21/05/16:
@@ -25,7 +28,8 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  * @author cbadenes
  */
 @SpringBootApplication
-@ComponentScan({"org.librairy"})
+@EnableSwagger2
+@ComponentScan({"org.librairy", "io.swagger"})
 @PropertySource({"classpath:boot.properties"})
 public class Application {
 
@@ -52,10 +56,13 @@ public class Application {
 
                 port = Integer.valueOf(args[0]);
             }
-
-            SpringApplication.run(Application.class, args);
-
+            
+			String var = System.getenv("LIBRAIRY_COLUMNDB_HOST");
+            System.out.println(var);
+            ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
+            
             LOG.info("Listening on port: " + port);
+            context.getBean(BlueBottleLoader.class).loadBooks();
 
         } catch (Exception e) {
             LOG.error("Error executing test",e);
