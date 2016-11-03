@@ -7,7 +7,6 @@
 
 package org.librairy.bluebottle;
 
-import org.librairy.bluebottle.load.BlueBottleLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -62,7 +61,6 @@ public class Application {
             ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
             
             LOG.info("Listening on port: " + port);
-            context.getBean(BlueBottleLoader.class).loadBooks();
 
         } catch (Exception e) {
             LOG.error("Error executing test",e);
