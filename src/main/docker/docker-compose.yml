@@ -1,8 +1,8 @@
 version: "2"
 services:
  explorer:
-   container_name: intro
-   image: librairy/intro:latest
+   container_name: harvester-bluebottle
+   image: jluisred/harvester-bluebottle
    external_links:
      - column-db
      - document-db

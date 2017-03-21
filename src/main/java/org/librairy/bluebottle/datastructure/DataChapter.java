@@ -1,4 +1,4 @@
-package org.library.bluebottle.datastructure;
+package org.librairy.bluebottle.datastructure;
 
 public class DataChapter{
 	String id;

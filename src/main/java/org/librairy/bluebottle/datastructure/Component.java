@@ -1,6 +1,12 @@
-package org.library.bluebottle.datastructure;
+package org.librairy.bluebottle.datastructure;
 
-public class Component{
+import java.io.Serializable;
+
+public class Component implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String oldHref;
 	String href;
 	String id;

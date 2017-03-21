@@ -1,10 +1,15 @@
-package org.library.bluebottle.datastructure;
+package org.librairy.bluebottle.datastructure;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BBBResource {
+public class BBBResource implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String hash;
 	String name;
 	String subtitle;
