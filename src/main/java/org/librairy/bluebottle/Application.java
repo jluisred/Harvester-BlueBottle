@@ -16,6 +16,9 @@ import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletCon
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
 /**
  * Created on 21/05/16:
  *
@@ -52,10 +55,22 @@ public class Application {
             
             loadEnvironment();
            
-            LOG.info("Listening on port: " + port);
+            LOG.info("Harvester BlueBottleBiz is ready to start     ٩(͡๏̯͡๏)۶");
 
+            Instant startModel  = Instant.now();
             BlueBottleLoaderParallel loader = new BlueBottleLoaderParallel();
             loader .loadBooks();
+            Instant endModel    = Instant.now();
+            LOG.info("All documents retrieved in: "
+                    + ChronoUnit.HOURS.between(startModel,endModel) + "hours "
+                    + ChronoUnit.MINUTES.between(startModel,endModel)%60 + "min "
+                    + (ChronoUnit.SECONDS.between(startModel,endModel)%60) + "secs");
+
+            // Update Topics for Domain
+            loader.updateTopics();
+
+
+            System.exit(0);
            //context.getBean(BlueBottleLoaderParallel.class).loadBooks();
            //context.getBean(SaveResources.class).deleteAll();
 
@@ -82,6 +97,7 @@ public class Application {
 		 String varForcePage = System.getenv("LIBRAIRY_HARVESTER_FORCE_PAGE");
 		 String varStartPage = System.getenv("LIBRAIRY_HARVESTER_START_PAGE");
 		 String varParallel = System.getenv("LIBRAIRY_HARVESTER_PARALLEL_PROCESSING");
+         String varTopics = System.getenv("LIBRAIRY_HARVESTER_TOPICS");
  
          //String var = "testIdCorpus";
 
@@ -118,7 +134,10 @@ public class Application {
            	Conf.setStartPage(Integer.parseInt(varStartPage));
          if (varParallel != null && !varParallel.isEmpty()) 
           	Conf.setParallelProcessing(varParallel.equals("1"));
-         
+         if (varTopics != null && !varTopics.isEmpty())
+             Conf.setTopics(Integer.parseInt(varTopics));
+
+
          System.out.println("====    HAVESTING CONFIGURATION    ====");
 
          System.out.println("Domain Name: " + Conf.getRunConf());

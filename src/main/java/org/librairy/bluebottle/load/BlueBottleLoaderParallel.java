@@ -3,22 +3,26 @@ package org.librairy.bluebottle.load;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import java.net.URI;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Strings;
 import org.librairy.bluebottle.cache.CacheBB;
 import org.librairy.bluebottle.conf.Conf;
 import org.librairy.bluebottle.datastructure.BBBResource;
 import org.librairy.bluebottle.datastructure.BBChapter;
 import org.librairy.bluebottle.datastructure.BBResourceUnit;
 import org.librairy.bluebottle.datastructure.DataChapter;
-import org.librairy.bluebottle.datastructure.LibrairyDocument;
 import org.librairy.bluebottle.datastructure.LibrairyDomain;
-import org.librairy.storage.executor.ParallelExecutor;
-import org.neo4j.ogm.json.JSONException;
-import org.neo4j.ogm.json.JSONObject;
+import org.librairy.bluebottle.exception.ApiError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -40,838 +44,798 @@ import com.google.gson.Gson;
 public class BlueBottleLoaderParallel {
     private static Logger LOG = LoggerFactory.getLogger(BlueBottleLoaderParallel.class);
 
-    //@Autowired
-	//UDM udm;
+    private static Integer MIN_CHAPTER_LENGTH = 2500;
 
-   // @Autowired
-    //URIGenerator uriGenerator;
-    
-    //@Autowired
-    //EventBus bus;
-    
+    private final ObjectMapper jsonMapper;
+
+    //Tracking variables
+    AtomicInteger numBooks                  = new AtomicInteger(0);
+    AtomicInteger numBooksNotDownloaded     = new AtomicInteger(0);
+    AtomicInteger numBooksSaved             = new AtomicInteger(0);
+    AtomicInteger numBooksNotSaved          = new AtomicInteger(0);
+    AtomicInteger numBooksInDomain          = new AtomicInteger(0);
+    AtomicInteger numBooksNotInDomain       = new AtomicInteger(0);
+    AtomicInteger numBooksNoData            = new AtomicInteger(0);
+    AtomicInteger numBooksEmpty             = new AtomicInteger(0);
+    AtomicInteger numBooksWithoutChapters   = new AtomicInteger(0);
+
+    AtomicInteger numChapters               = new AtomicInteger(0);
+    AtomicInteger numChaptersNotDownloaded  = new AtomicInteger(0);
+    AtomicInteger numChaptersDiscarded      = new AtomicInteger(0);
+    AtomicInteger numChaptersSaved          = new AtomicInteger(0);
+    AtomicInteger numChaptersNotSaved       = new AtomicInteger(0);
+    AtomicInteger numChaptersAssociated     = new AtomicInteger(0);
+    AtomicInteger numChaptersInDomain       = new AtomicInteger(0);
+    AtomicInteger numChaptersNotInDomain    = new AtomicInteger(0);
+    AtomicInteger numChaptersEmpty          = new AtomicInteger(0);
+
+
+    Integer querySize = 100;
+
+    public BlueBottleLoaderParallel() {
+        String minValue = System.getenv("MIN_CHAPTER_LENGTH");
+        if (!Strings.isNullOrEmpty(minValue)){
+            MIN_CHAPTER_LENGTH = Integer.valueOf(minValue);
+        }
+        this.jsonMapper = new ObjectMapper();
+    }
 
 
     //@PostConstruct
-    public void setup(){
+    public void setup() {
         LOG.info("Loader UP!");
     }
 
 
-    public void loadBooks(){
-    	//Tracking variables
-        int numConsistentResources = 0;
-        int numResources = 0;
-        
-        List<BBBResource> booksEmpty = new ArrayList<BBBResource>();
-        List<String> booksNoData = new ArrayList<String>();
-        List<String> booksNoComponents = new ArrayList<String>();
-        List<String> booksComponents = new ArrayList<String>();
+    public void loadBooks() throws JsonProcessingException, ApiError {
 
-        List<BBBResource> books = null;
-        
+
+//        List<BBBResource> booksEmpty = new ArrayList<BBBResource>();
+//        List<String> booksNoData = new ArrayList<String>();
+//        List<String> booksNoComponents = new ArrayList<String>();
+//        List<String> booksComponents = new ArrayList<String>();
+
+//        List<BBBResource> books = null;
+
+//		ParallelExecutor pe = new ParallelExecutor();
+
         //Initialize Domain and Source
         String domain = setupDomain().getId();
         //String domain ="ae5753952f7db4b1d56a5942e08476f9"; //200
         //String domain ="2de4b3245d79606bdd31176b201b1ab6";// 200B
-       // String domain = "141fc5bbcf0212ec9bee5ef66c6096ab"; //Bluebottle
-        
-        
+        // String domain = "141fc5bbcf0212ec9bee5ef66c6096ab"; //Bluebottle
+
+
         //get list of books
-    	  RestTemplate restTemplate = new RestTemplate();
+        RestTemplate restTemplate = new RestTemplate();
 
-    	  //Build Headers
-          HttpHeaders headers = new HttpHeaders();
-          headers.add("x-api-key", Conf.getApikey());
-          headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
-          headers.setContentType(MediaType.APPLICATION_JSON);
+        //Build Headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("x-api-key", Conf.getApikey());
+        headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-          //Build Request
-          HttpEntity<String> request = new HttpEntity<String>(headers);
-          
-          
-          //getNumPages
-          int numPages = 0;
-          //int numPages = 83;//HACK
-          if (Conf.getLoadGT()) numPages = 1;
-          else{
-              if (Conf.getForcePages() >0) numPages = Conf.getForcePages();
-              else numPages = getNumPages(restTemplate, request);
-          }
-          System.out.println("NUMBER OF PAGES: " + numPages);
-          ParallelExecutor pe = new ParallelExecutor();
-          
-          int minPage = 1;
-          if (Conf.getStartPage()>0) minPage = Conf.getStartPage();
-          
-          
-          for(int p = minPage; p<=numPages; p++){
-        	  
-              // Launch Get Page   
-        	  CacheBB cache = new CacheBB();
-        	  
-        	  if (!Conf.isCacheEnabled()){
-                  books = getBooksInPage(restTemplate, request, p);
-        	  }
-        	  else {
-            	  if (!cache.containsPage(p)){
-                      books = getBooksInPage(restTemplate, request, p);
-                      cache.savePage(books, p);
-            	  }
-            	  else books = cache.getPage(p);
-        	  }
-        	  
+        //Build Request
+        HttpEntity<String> request = new HttpEntity<String>(headers);
 
-        if(Conf.getLoadGT()){	  
-              //LOG.info("NumResources: " + books.size());
-        	  //Hack for adding 5 books in gold standard
-        	  BBBResource book1 = new  BBBResource();
-        	  book1.setSeoBook("defying-doom");
-        	  book1.setName("DEFYING DOOM");
-        	  book1.setHash("RB6qb-VsRYsOZ");
-        	  System.out.println(book1.getHash());
-        	  BBBResource book2 = new  BBBResource();
-        	  book2.setSeoBook("outstanding-business-english");
-        	  book2.setName("Outstanding business English");
-        	  book2.setHash("82WxBdWh6U4");
-        	  BBBResource book3 = new  BBBResource();
-        	  book3.setSeoBook("the-art-of-shopping");
-        	  book3.setName("The Art of Shopping");
-        	  book3.setHash("M57xA96F4Ix");
-        	  BBBResource book4 = new  BBBResource();
-        	  book4.setSeoBook("the-content-revolution");
-        	  book4.setName("The content revolution");
-        	  book4.setHash("rV_NJKNSdiL");
-        	  BBBResource book5 = new  BBBResource();
-        	  book5.setSeoBook("designpedia");
-        	  book5.setName("Designpedia");
-        	  book5.setHash("5d73LzOTM7Udw");
-        	  books.clear();
-        	  books.add(book1);
-        	  books.add(book2);
-        	  books.add(book3);
-        	  books.add(book4);
-        	  books.add(book5);
+
+        //getNumPages
+        int numPages = 0;
+//        int numPages = 1;
+        if (Conf.getLoadGT()) numPages = 1;
+        else {
+            if (Conf.getForcePages() > 0) numPages = Conf.getForcePages();
+            else numPages = getNumPages(restTemplate, request);
         }
-              //get Chapters
-              for(BBBResource book: books){
-            	  numResources++;
+        LOG.debug("NUMBER OF PAGES: " + numPages);
 
-            	
-            	  if (Conf.isParallelProcessing()){
-            		  int page = p;
-                	  pe.execute(() -> processBook(restTemplate, request, book, domain, booksEmpty, booksNoData, booksNoComponents, booksComponents, numConsistentResources, page));
-            	  }
-            	  else
-            		  processBook(restTemplate, request, book, domain, booksEmpty, booksNoData, booksNoComponents, booksComponents, numConsistentResources, p);
+        int minPage = 1;
+        if (Conf.getStartPage() > 0) minPage = Conf.getStartPage();
 
 
-              }
-              
-              
-              //chapterIDs.stream().forEach(chapterID -> LOG.info("     Chapter: " + chapterID));
-              
-              
+        for (int p = minPage; p <= numPages; p++) {
 
-              
-          }
+            List<BBBResource> books = new ArrayList<>();
 
-          //REPORT ON COLLECTION
-        	LOG.info("==============================================");
-          	LOG.info("TOTAL NUMBER OF RESOURCES: " + numResources);
-  	  		LOG.info("CONSISTENT RESOURCES: " + numConsistentResources);
-  	  		LOG.info("Books that are empty: " + booksEmpty.size());
-  	  		for (BBBResource bookempty : booksEmpty){
-  	  	  		LOG.info("      --> " +bookempty.getName() + ", id: " + bookempty.getHash());
-  	  		}
-  	  		LOG.info("Books with no DATA: " + booksNoData.size());
-  	  		LOG.info("Books with no Components: " + booksNoComponents.size());
-  	  		LOG.info("Books fully completed: " + booksComponents.size());
-  	  		if (!booksNoData.isEmpty()) LOG.info("Name of book with no data: " + booksNoData.get(0));
-  	  		if (!booksNoComponents.isEmpty()) LOG.info("Name of book with data and no component: " + booksNoComponents.get(0));
-  	  		if (!booksComponents.isEmpty()) LOG.info("Name of book with all neccesary info: " + booksComponents.get(0));
-        	LOG.info("==============================================");
+            // Launch Get Page
+            CacheBB cache = new CacheBB();
 
-        	
-          
-      // sc.loadResourcesInLibrary (booksCatalog);
-       //sc.deleteAll();
- 
+            try {
+                if (!Conf.isCacheEnabled()) {
+                    books = getBooksInPage(restTemplate, request, p);
+                } else {
+                    if (!cache.containsPage(p)) {
+                        books = getBooksInPage(restTemplate, request, p);
+                        cache.savePage(books, p);
+                    } else books = cache.getPage(p);
+                }
+            } catch (ApiError e){
+                LOG.error("api-error getting books in page by request: " + request, e);
+                numBooksNotDownloaded.addAndGet(querySize);
+                continue;
+            } catch(Exception e){
+                LOG.error("unexpected error getting books in page by request: " + request, e);
+                numBooksNotSaved.addAndGet(querySize);
+                continue;
+            }
+
+
+            if (Conf.getLoadGT()) {
+                //LOG.info("NumResources: " + books.size());
+                //Hack for adding 5 books in gold standard
+                BBBResource book1 = new BBBResource();
+                book1.setSeoBook("defying-doom");
+                book1.setName("DEFYING DOOM");
+                book1.setHash("RB6qb-VsRYsOZ");
+                LOG.debug(book1.getHash());
+                BBBResource book2 = new BBBResource();
+                book2.setSeoBook("outstanding-business-english");
+                book2.setName("Outstanding business English");
+                book2.setHash("82WxBdWh6U4");
+                BBBResource book3 = new BBBResource();
+                book3.setSeoBook("the-art-of-shopping");
+                book3.setName("The Art of Shopping");
+                book3.setHash("M57xA96F4Ix");
+                BBBResource book4 = new BBBResource();
+                book4.setSeoBook("the-content-revolution");
+                book4.setName("The content revolution");
+                book4.setHash("rV_NJKNSdiL");
+                BBBResource book5 = new BBBResource();
+                book5.setSeoBook("designpedia");
+                book5.setName("Designpedia");
+                book5.setHash("5d73LzOTM7Udw");
+                books.clear();
+                books.add(book1);
+                books.add(book2);
+                books.add(book3);
+                books.add(book4);
+                books.add(book5);
+            }
+            //get Chapters
+
+            final int currentPage = p;
+            //Conf.isParallelProcessing()
+            books.parallelStream().forEach( book -> {
+                numBooks.getAndIncrement();
+                try {
+                    processBook(restTemplate, request, book, domain, currentPage);
+                } catch (ApiError e){
+                    LOG.error("api-error processing book: " + book.getHash(), e);
+                } catch(Exception e){
+                    LOG.error("unexpected error processing book: " + book.getHash(), e);
+                    numBooksNotSaved.getAndIncrement();
+                }
+            });
+
+
+            //chapterIDs.stream().forEach(chapterID -> LOG.info("     Chapter: " + chapterID));
+
+
+        }
+
+        //REPORT ON COLLECTION
+        LOG.info("==============================================");
+        LOG.info("Books listed: " + numBooks.get());
+        LOG.info("Books not downloaded: " + numBooksNotDownloaded.get());
+        LOG.info("Books saved: " + numBooksSaved.get());
+        LOG.info("Books not saved: " + numBooksNotSaved.get());
+        LOG.info("Books empty: " + numBooksEmpty.get());
+        LOG.info("Books with no DATA: " + numBooksNoData.get());
+        LOG.info("Books with no Chapters: " + numBooksWithoutChapters.get());
+        LOG.info("Books in domain: " + numBooksInDomain.get());
+        LOG.info("Books NOT in domain: " + numBooksNotInDomain.get());
+        LOG.info("----------------------------------------------");
+        LOG.info("Chapters listed: " + numChapters.get());
+        LOG.info("Chapters not downloaded: " + numChaptersNotDownloaded.get());
+        LOG.info("Chapters saved: " + numChaptersSaved.get());
+        LOG.info("Chapters not saved: " + numChaptersNotSaved.get());
+        LOG.info("Chapters associated: " + numChaptersAssociated.get());
+        LOG.info("Chapters in domain: " + numChaptersInDomain.get());
+        LOG.info("Chapters NOT in domain: " + numChaptersNotInDomain.get());
+        LOG.info("Chapters empty: " + numChaptersEmpty.get());
+        LOG.info("Chapters discarded: " + numChaptersDiscarded.get());
+        LOG.info("==============================================");
+
+
+        // sc.loadResourcesInLibrary (booksCatalog);
+        //sc.deleteAll();
+
         //udm.save(resource)e(books.get(0));
-        
-
 
 
     }
 
 
-	private LibrairyDomain setupDomain() {
-		        // Check if exists 'default' source
-		    	//udm.find(Resource.Type.SOURCE).all().forEach(res -> LOG.info((("Source: " + udm.read(Resource.Type.SOURCE).byUri(res.getUri()).get().asSource()))));
-		    	//udm.find(Resource.Type.SOURCE).all().forEach(res -> LOG.info((("Source: " + res.getUri()))));
+    private LibrairyDomain setupDomain() throws JsonProcessingException {
+        JsonNode domainJson = this.jsonMapper.createObjectNode();
 
-		    /*OLD DOMAIN CREATION LOGIC
-		        if (udm.find(Resource.Type.SOURCE).all().isEmpty()){
-		            Source source = Resource.newSource("default");
-		            source.setUri(uriGenerator.from(Resource.Type.SOURCE, "default"));
-		            source.setDescription("default");
-		            LOG.info("Creating default source: " + source);
-		            udm.save(source);
-		            createDefaultDomain(source);
-		        }
-		        
-		        */
-		    
-		    	
-			    JSONObject domainJson = new JSONObject();
-			    try {
-					domainJson.put("name", Conf.getRunConf());
-
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-			    
-
-		    	
-		    	 RestTemplate restTemplate = new RestTemplate();
-
-		   	    //Build Headers
-		         HttpHeaders headers = new HttpHeaders();
-		         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
-		         headers.setContentType(MediaType.APPLICATION_JSON);
+        ((ObjectNode) domainJson).put("name", Conf.getRunConf());
 
 
-		         //Build Request
-		    	
-		         HttpEntity<String> request = new HttpEntity<String>(domainJson.toString(), headers);
-		         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointLibrairy()+"/domains/"+ Conf.getRunConf());
-		         
-		        ResponseEntity<String> response = restTemplate.exchange( builder.build().encode().toUri(),
-		                HttpMethod.POST,
-		                request,
-		                String.class);
-		        
-		        
-		        Gson gson = new Gson();
-		        LibrairyDomain domain = gson.fromJson(response.getBody(), LibrairyDomain.class);
-		        System.out.println("Domain id "+ domain.getId());
+        RestTemplate restTemplate = new RestTemplate();
+
+        //Build Headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+
+        //Build Request
+        HttpEntity<String> request = new HttpEntity<String>(jsonMapper.writeValueAsString(domainJson), headers);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointLibrairy() + "domains/" +
+				Conf.getRunConf());
+
+        URI uri = builder.build().encode().toUri();
+        ResponseEntity<String> response = restTemplate.exchange(uri,
+                HttpMethod.POST,
+                request,
+                String.class);
+
+
+        Gson gson = new Gson();
+        LibrairyDomain domain = gson.fromJson(response.getBody(), LibrairyDomain.class);
+
+//        // Simulate DOmain ->
+//        LibrairyDomain domain = new LibrairyDomain();
+//        domain.setId("blueBottle");
+//        domain.setUrl("http://librairy.org/domains/blueBottle");
+//        domain.setName("blueBottle");
+//        domain.setCreation("2017-06-15T14:08+0000");
+//        // <-
+        LOG.debug("Domain id " + domain.getId());
 
 //    "name": "tokenizer.mode",   "value": "lemma"
-		        
-		        setParametersDomain(domain, "tokenizer.mode", Conf.getTokenizerMode());
-		        setParametersDomain(domain, "lda.delay", Integer.toString(Conf.getLdaDelay()));
-		        setParametersDomain(domain, "w2v.delay", Integer.toString(Conf.getW2vDelay()));
 
-		        return domain;
+        setParametersDomain(domain, "tokenizer.mode", Conf.getTokenizerMode());
+        setParametersDomain(domain, "lda.delay", Integer.toString(Conf.getLdaDelay()));
+        setParametersDomain(domain, "w2v.delay", Integer.toString(Conf.getW2vDelay()));
 
+        if (Conf.getTopics().isPresent()){
+            setParametersDomain(domain, "lda.optimizer", "manual");
+            setParametersDomain(domain, "lda.topics", Integer.toString(Conf.getTopics().get()));
+        }
 
-		 
-	}
-
-
-	private void setParametersDomain(LibrairyDomain domain, String name, String value) {
-		
-		
-		
-	    JSONObject domainJson = new JSONObject();
-	    try {
-			domainJson.put("name", name);
-			domainJson.put("value", value);
-
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	    
-
-    	
-    	 RestTemplate restTemplate = new RestTemplate();
-
-   	    //Build Headers
-         HttpHeaders headers = new HttpHeaders();
-         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
-         headers.setContentType(MediaType.APPLICATION_JSON);
+        return domain;
 
 
-         //Build Request
-    	
-         HttpEntity<String> request = new HttpEntity<String>(domainJson.toString(), headers);
-         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointLibrairy()+"domains/"+domain.getId()+"/parameters");
-         //System.out.println(builder.build().encode().toUri());
-        restTemplate.exchange( builder.build().encode().toUri(),
+    }
+
+
+    private void setParametersDomain(LibrairyDomain domain, String name, String value) throws JsonProcessingException {
+
+
+        JsonNode domainJson = this.jsonMapper.createObjectNode();
+
+        ((ObjectNode) domainJson).put("name", name);
+        ((ObjectNode) domainJson).put("value", value);
+
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        //Build Headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+
+        //Build Request
+
+        HttpEntity<String> request = new HttpEntity<String>(jsonMapper.writeValueAsString(domainJson), headers);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointLibrairy() + "/domains/" +
+                domain.getId() + "/parameters");
+        //LOG.debug(builder.build().encode().toUri());
+        URI uri = builder.build().encode().toUri();
+        restTemplate.exchange(uri,
                 HttpMethod.POST,
                 request,
                 String.class);
-        
-		
-	}
 
 
-	private void processBook(RestTemplate restTemplate, HttpEntity<String> request, BBBResource book, String domain, List<BBBResource> booksEmpty, List<String> booksNoData, List<String> booksNoComponents, List<String> booksComponents, int numConsistentResources, int page) {
-  	  LOG.info("Resource: " + book.getSeoBook());
-  	  //Retrieving Chapters
-      BBResourceUnit resource = null;
-      
-      CacheBB cache = new CacheBB();
-	  if (!Conf.isCacheEnabled()){
-	  	  resource = retrieveChapters(restTemplate, request, book.getSeoBook());
-	  }
-	  else {
-    	  if (!cache.containsResource(book.getSeoBook())){
-    	  	  resource = retrieveChapters(restTemplate, request, book.getSeoBook());
-              cache.saveResource(resource, book.getSeoBook());
-    	  }
-    	  else resource = cache.getResource(book.getSeoBook());
-	  }
-	  
-	  int cont = 0;
-	  while (resource == null && cont<20){
-		  	resource = retrieveChapters(restTemplate, request, book.getSeoBook());
-		  	if (resource != null) cache.saveResource(resource, book.getSeoBook());
-             cont++;
-	  }
-	  
-      
-  	  if (resource == null){
-  		  booksEmpty.add(book);
-  		  return;
-  	  }
-  	  
-  	  
-  	  System.out.println("Resource: " + book.getSeoBook());
-
-	  	//Clean 
-	 	 Escaper escaper = Escapers.builder()
-	             .addEscape('\'',"_")
-	             .addEscape('('," ")
-	             .addEscape(')'," ")
-	             .addEscape('['," ")
-	             .addEscape(']'," ")
-	             .addEscape('“',"\"")
-	             .addEscape('"'," ")
-	             .addEscape('…'," ")
-	             .addEscape('‘'," ")
-	             .addEscape('\n'," ")
-	             .addEscape('‘'," ")
-	             .build();
-	 	 ;
-	 	
- 	 
- 		  if (resource.getData() != null) { //Checking books with no Data
-
- 			  if(resource.getData().getComponents() != null) {//Checking books with no Components
-
-     			  if (!resource.getData().getComponents().isEmpty()){ //Checking there is at least one chapter
-     				numConsistentResources++;
-     				booksComponents.add(book.getSeoBook());
-     			  }
-     			  else booksNoComponents.add(book.getSeoBook());
-
-     			 //Generate book
-     			  //LibrairyDocument document = saveBookLibrairy(book, "");
-     			  
-     			  
-  		          String textBook = "";
-  		          
-     			  //Retrieving text 
-     			  for (org.librairy.bluebottle.datastructure.Component c : resource.getData().getComponents()){
-     	  	  			//LOG.info("       Chapter: " + c.getId());
-     				  String text = "";
-     				  
-     				  
-     				  if (!Conf.isCacheEnabled()){
-       	  	  			text = retrieveTextChapter(restTemplate, request, book.getSeoBook(), c.getId());
-	       	  	  			text = Normalizer.normalize(text, Normalizer.Form.NFD);
-
-       	  	  			text = escaper.escape(text);
-       	  	  			text = text.replaceAll("\\P{Print}", "");
- 			  	  	    //text = text.replaceAll("[^\\x00-\\x7F]", "");
-       	  	  			//text = text.replaceAll("\\P{InBasic_Latin}", "");
-       	  	  			//text = text.replaceAll("\\p{Cc}", "");
-	       	  	  		//text= text.replaceAll("[\u0000-\u001f]", " ");
+    }
 
 
-       	  	  			byte ptext[] = text.getBytes(ISO_8859_1); 
-       	  	  			text = new String(ptext, UTF_8); 
-     				  }
-     				  else {
-     			    	  if (!cache.containsTextChapter(c.getId())){
-     	       	  	  			text = retrieveTextChapter(restTemplate, request, book.getSeoBook(), c.getId());
-     	       	  	  			text = Normalizer.normalize(text, Normalizer.Form.NFD);
+    private void processBook(RestTemplate restTemplate, HttpEntity<String> request, BBBResource book, String domain, int page) throws JsonProcessingException, ApiError {
+        LOG.info("Processing book: '" + book.getSeoBook() + "'");
+        //Retrieving Chapters
+        BBResourceUnit resource = null;
 
-     	       	  	  			text = escaper.escape(text);
-    	       	  	  			text = text.replaceAll("\\P{Print}", "");
-    	   			  	  		//text = text.replaceAll("[^\\x00-\\x7F]", "");
-    		       	  	  		//text = text.replaceAll("\\P{InBasic_Latin}", "");
-    		       	  	  		//text = text.replaceAll("\\p{Cc}", "");
-    		       	  	  		//text= text.replaceAll("[\u0000-\u001f]", " ");
+        CacheBB cache = new CacheBB();
+        if (!Conf.isCacheEnabled()) {
+            resource = retrieveChapters(restTemplate, request, book.getSeoBook());
+        } else {
+            if (!cache.containsResource(book.getSeoBook())) {
+                resource = retrieveChapters(restTemplate, request, book.getSeoBook());
+                cache.saveResource(resource, book.getSeoBook());
+            } else resource = cache.getResource(book.getSeoBook());
+        }
 
-     	       	  	  			byte ptext[] = text.getBytes(ISO_8859_1); 
-     	       	  	  			text = new String(ptext, UTF_8); 
-     			              cache.saveTextChapter(text, c.getId());
-     			    	  }
-     			    	  else {
-     			    		  text = cache.getTextChapter(c.getId());
-     			  	  		  text = Normalizer.normalize(text, Normalizer.Form.NFD);
-     			  	  		  text = escaper.escape(text);
-     			  	  		  
-     			  	  		  text = text.replaceAll("\\P{Print}", "");
-       			  	  		 // text = text.replaceAll("[^\\x00-\\x7F]", "");
-  	       	  	  			  //text = text.replaceAll("\\P{InBasic_Latin}", "");
-  	       	  	  			  //text = text.replaceAll("\\p{Cc}", "");
-		       	  	  		  //text= text.replaceAll("[\u0000-\u001f]", " ");
+        int cont = 0;
+        while (resource == null && cont < 20) {
+            resource = retrieveChapters(restTemplate, request, book.getSeoBook());
+            if (resource != null) cache.saveResource(resource, book.getSeoBook());
+            cont++;
+        }
 
 
-     			    	  }
-     				  }
-     				  int contChap = 0;
-     				  while (text == null && contChap<20){
-	       	  	  			text = retrieveTextChapter(restTemplate, request, book.getSeoBook(), c.getId());
- 	       	  	  			text = Normalizer.normalize(text, Normalizer.Form.NFD);
-	       	  	  			text = escaper.escape(text);
-	       	  	  			text = text.replaceAll("\\P{Print}", "");
-	       	  	  			//text = text.replaceAll("[^\\x00-\\x7F]", "");
-	       	  	  			//text = text.replaceAll("\\P{InBasic_Latin}", "");
-	       	  	  			//text = text.replaceAll("\\p{Cc}", "");
-		       	  	  		//text= text.replaceAll("[\u0000-\u001f]", "" );
+        if (resource == null) {
+            LOG.warn("Book '" + book.getHash() +"' is empty");
+            numBooksEmpty.getAndIncrement();
+            return;
+        }
 
 
-	       	  	  			byte ptext[] = text.getBytes(ISO_8859_1); 
-	       	  	  			text = new String(ptext, UTF_8); 
-	       	  	  			if (text != null) cache.saveTextChapter(text, c.getId());     					  	if (resource != null) cache.saveResource(resource, book.getSeoBook());
-     			             contChap++;
-     				  }
-     				  
-     	  	  			book.getChapters().add(new DataChapter(c.getId(),text ));
-     	  	  			textBook = textBook + " " + text;
-     			  }
-     			  //LibrairyDocument document = saveBookLibrairy(book, textBook);
- 				  System.out.println("Book id "+ book.getHash() + " from page "+ page);
+        LOG.debug("Resource: " + book.getSeoBook());
 
-     			  if (saveBookLibrairy(book, textBook)){
-
-
-     				  savePartItemLibrairy(book, page);
-     			  
-     			  
-     			 
-     				  //Add book to Domain
-     				  addDocumentToDomain(domain, book.getHash());
-     			  }
-     			  
- 			  }
- 			  else {
- 				booksNoComponents.add(book.getSeoBook());
- 			  }
- 		  }
- 		  else{
- 			booksNoData.add(book.getSeoBook());
-  	  }
-		
-	}
+        //Clean
+        Escaper escaper = Escapers.builder()
+                .addEscape('\'', "_")
+                .addEscape('(', " ")
+                .addEscape(')', " ")
+                .addEscape('[', " ")
+                .addEscape(']', " ")
+                .addEscape('“', "\"")
+                .addEscape('"', " ")
+                .addEscape('…', " ")
+                .addEscape('‘', " ")
+                .addEscape('\n', " ")
+                .addEscape('‘', " ")
+                .build();
+        ;
 
 
-	private void addDocumentToDomain(String domain, String documentID) {
+        if (resource.getData() != null) { //Checking books with no Data
 
-	    JSONObject domainJson = new JSONObject();
+            if (resource.getData().getComponents() != null && !resource.getData().getComponents().isEmpty()) {//Checking books
+                // with no Components
 
-
-
-    	 RestTemplate restTemplate = new RestTemplate();
-
-   	  //Build Headers
-         HttpHeaders headers = new HttpHeaders();
-         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
-         headers.setContentType(MediaType.APPLICATION_JSON);
-
-         //Build Request
-    	
-         HttpEntity<String> request = new HttpEntity<String>(domainJson.toString(), headers);
-         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointLibrairy()+"domains/"+domain+"/documents/"+documentID);
-         
-         try{
-        ResponseEntity<String> response = restTemplate.exchange( builder.build().encode().toUri(),
-                HttpMethod.POST,
-                request,
-                String.class);
-        
-        
-		} 
-		catch (HttpClientErrorException e) {
-			// TODO Auto-generated catch block
-	        if (e.getStatusCode() == HttpStatus.CONFLICT) 
-	        	System.out.println("Cant associate " + documentID + " to domain.");
-	        else e.printStackTrace();
-			
-		}
-		catch (RestClientException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+                //Generate book
+                //LibrairyDocument document = saveBookLibrairy(book, "");
 
 
-	private void savePartItemLibrairy(BBBResource book, int page) {
-		//GenerateParts
-        //ArrayList<Part> parts = new ArrayList<Part>();
-        //String textItem ="";
-        //for (DataChapter chapter: book.getChapters()){
-        //    Part part = Resource.newPart(chapter.getText());
-        //    part.setUri(uriGenerator.from(Resource.Type.PART, chapter.getId()));
-        //    udm.save(part);
-        //    parts.add(part);
-        //    textItem = textItem + " " + chapter.getText(); //Concatenate text
-        //}
-        
-        //Create Item
+                String textBook = "";
 
-        
-        //Item item = Resource.newItem(textItem);
-        //item.setFormat("text");
+                //Retrieving text
+                for (org.librairy.bluebottle.datastructure.Component c : resource.getData().getComponents()) {
 
-        //item.setUri(uriGenerator.from(Resource.Type.ITEM, URIGenerator.retrieveId(document.getUri())));
-        //udm.save(item);
-        //LOG.info("New (textual) Item: " + item.getUri() + " from Document: " + document.getUri());
+                    numChapters.getAndIncrement();
 
-        //Relation parts / item
-        //for (Part p :parts){
-        //    udm.save(Relation.newDescribes(p.getUri(),item.getUri()));
-        //    udm.save(Relation.newContains(uriGenerator.from(Resource.Type.DOMAIN, "default"),p.getUri()));
-
-        //}
-        //relation item / document
-        //udm.save(Relation.newBundles(document.getUri(),item.getUri()));
-        //udm.save(Relation.newContains(uriGenerator.from(Resource.Type.DOMAIN, "default"),item.getUri()));
-
-		
-		
-        for (DataChapter chapter: book.getChapters()){
-
-        	
-
-        	
-    	    JSONObject domainJson = new JSONObject();
-    	    try {
-    			domainJson.put("language", "EN");
-    			domainJson.put("content", chapter.getText());
-    			//domainJson.put("id", chapter.getId());
-    			//domainJson.put("uri", "http://librairy.org/parts/"+chapter.getId());
+                    //LOG.info("       Chapter: " + c.getId());
+                    String text = "";
 
 
-    		} catch (JSONException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		} 
-        	//System.out.println(domainJson.toString());
+                    if (!Conf.isCacheEnabled()) {
+                        text = retrieveTextChapter(restTemplate, request, book.getSeoBook(), c.getId());
+                        text = Normalizer.normalize(text, Normalizer.Form.NFD);
+
+                        text = escaper.escape(text);
+                        text = text.replaceAll("\\P{Print}", "");
+                        //text = text.replaceAll("[^\\x00-\\x7F]", "");
+                        //text = text.replaceAll("\\P{InBasic_Latin}", "");
+                        //text = text.replaceAll("\\p{Cc}", "");
+                        //text= text.replaceAll("[\u0000-\u001f]", " ");
 
 
-        	 RestTemplate restTemplate = new RestTemplate();
+                        byte ptext[] = text.getBytes(ISO_8859_1);
+                        text = new String(ptext, UTF_8);
+                    } else {
+                        if (!cache.containsTextChapter(c.getId())) {
+                            text = retrieveTextChapter(restTemplate, request, book.getSeoBook(), c.getId());
+                            text = Normalizer.normalize(text, Normalizer.Form.NFD);
 
-       	  //Build Headers
-             HttpHeaders headers = new HttpHeaders();
-             headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
-             headers.setContentType(MediaType.APPLICATION_JSON);
+                            text = escaper.escape(text);
+                            text = text.replaceAll("\\P{Print}", "");
+                            //text = text.replaceAll("[^\\x00-\\x7F]", "");
+                            //text = text.replaceAll("\\P{InBasic_Latin}", "");
+                            //text = text.replaceAll("\\p{Cc}", "");
+                            //text= text.replaceAll("[\u0000-\u001f]", " ");
 
-             //Build Request
-             HttpEntity<String> request = new HttpEntity<String>(domainJson.toString(), headers);
-             UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointLibrairy()+"parts/"+chapter.getId());
-             
-			try {
-	        	//System.out.println("chapter CONTENT: " + chapter.getText());
+                            byte ptext[] = text.getBytes(ISO_8859_1);
+                            text = new String(ptext, UTF_8);
+                            cache.saveTextChapter(text, c.getId());
+                        } else {
+                            text = cache.getTextChapter(c.getId());
+                            text = Normalizer.normalize(text, Normalizer.Form.NFD);
+                            text = escaper.escape(text);
 
-				restTemplate.exchange( builder.build().encode().toUri(),
-				        HttpMethod.POST,
-				        request,
-				        String.class);
-	        	System.out.println("Created Part with ID " + chapter.getId() + " from page " + page);
+                            text = text.replaceAll("\\P{Print}", "");
+                            // text = text.replaceAll("[^\\x00-\\x7F]", "");
+                            //text = text.replaceAll("\\P{InBasic_Latin}", "");
+                            //text = text.replaceAll("\\p{Cc}", "");
+                            //text= text.replaceAll("[\u0000-\u001f]", " ");
 
-			} 
-			catch (HttpClientErrorException e) {
-				// TODO Auto-generated catch block
-		        if (e.getStatusCode() == HttpStatus.CONFLICT) 
-		        	System.out.println("Conflict with chapter " + book.getHash());
-		        else e.printStackTrace();
-				
-			}
-			catch (RestClientException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-			
-	       	  //Build Headers
 
-            //Build Request
-            HttpEntity<String> requestLinkPartDocument = new HttpEntity<String>(headers);
-            UriComponentsBuilder builderLinkPartDocument = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointLibrairy()+"documents/"+book.getHash()+"/parts/"+chapter.getId());
-            
-			try {
-	        	//System.out.println("chapter CONTENT: " + chapter.getText());
-				System.out.println(builderLinkPartDocument.build().encode().toUri());
-				restTemplate.exchange( builderLinkPartDocument.build().encode().toUri(),
-				        HttpMethod.POST,
-				        requestLinkPartDocument,
-				        String.class);
-	        	System.out.println("Associating " + book.getHash() + " with " + chapter.getId() );
+                        }
+                    }
+                    int contChap = 0;
+                    while (text == null && contChap < 20) {
+                        text = retrieveTextChapter(restTemplate, request, book.getSeoBook(), c.getId());
+                        text = Normalizer.normalize(text, Normalizer.Form.NFD);
+                        text = escaper.escape(text);
+                        text = text.replaceAll("\\P{Print}", "");
+                        //text = text.replaceAll("[^\\x00-\\x7F]", "");
+                        //text = text.replaceAll("\\P{InBasic_Latin}", "");
+                        //text = text.replaceAll("\\p{Cc}", "");
+                        //text= text.replaceAll("[\u0000-\u001f]", "" );
 
-	        	//System.out.println("Created chapter with ID " + chapter.getId());
 
-			} 
-			catch (HttpClientErrorException e) {
-				// TODO Auto-generated catch block
-		        if (e.getStatusCode() == HttpStatus.CONFLICT) 
-		        	System.out.println("Conflict associating resource " + book.getHash() + " with "+chapter.getId());
-		        else e.printStackTrace();
-				
-			}
-			catch (RestClientException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+                        byte ptext[] = text.getBytes(ISO_8859_1);
+                        text = new String(ptext, UTF_8);
+                        if (text != null) cache.saveTextChapter(text, c.getId());
+                        if (resource != null) cache.saveResource(resource, book.getSeoBook());
+                        contChap++;
+                    }
 
+
+                    if (Strings.isNullOrEmpty(text)){
+                        LOG.warn("Chapter '" + c.getId() + "' from book '"+ book.getHash() + "' is empty");
+                        numChaptersEmpty.getAndIncrement();
+                    }
+
+                    if (text.length() > MIN_CHAPTER_LENGTH){
+                        book.getChapters().add(new DataChapter(c.getId(), text));
+                    }else{
+                        numChaptersDiscarded.getAndIncrement();
+                    }
+                    textBook = textBook + " " + text;
+                }
+                //LibrairyDocument document = saveBookLibrairy(book, textBook);
+                LOG.debug("Book id " + book.getHash() + " from page " + page);
+
+                if (saveBookLibrairy(book, textBook)) {
+
+
+                    savePartItemLibrairy(book, page);
+
+
+                    //Add book to Domain
+                    addDocumentToDomain(domain, book.getHash());
+                }
+
+            } else {
+                LOG.warn("Book '" + book.getHash() + "' without chapters");
+                numBooksWithoutChapters.getAndIncrement();
+            }
+        } else {
+            LOG.warn("Book '" + book.getHash() + "' with no data");
+            numBooksNoData.getAndIncrement();
+        }
+
+    }
+
+
+    private void addDocumentToDomain(String domain, String documentID) throws JsonProcessingException {
+
+        JsonNode domainJson = this.jsonMapper.createObjectNode();
+
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        //Build Headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        //Build Request
+
+        HttpEntity<String> request = new HttpEntity<String>(jsonMapper.writeValueAsString(domainJson), headers);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointLibrairy() + "domains/" +
+				domain + "/documents/" + documentID);
+
+
+        if (executePOSTQuery(restTemplate, builder, request)){
+            numBooksInDomain.getAndIncrement();
+        } else{
+            LOG.warn("Book '" + documentID + "' not in domain");
+            numBooksNotInDomain.getAndIncrement();
+        }
+    }
+
+
+    private Boolean executePOSTQuery(RestTemplate restTemplate, UriComponentsBuilder builder, HttpEntity<String> request){
+
+        Integer retries = 0;
+        Integer maxRetries = 4;
+
+        while(retries < maxRetries){
+            retries++;
+            URI uri = builder.build().encode().toUri();
+            try {
+                LOG.debug("HTTP-POST Request to: " + uri.toString());
+                ResponseEntity<String> response = restTemplate.exchange(uri,
+                        HttpMethod.POST,
+                        request,
+                        String.class);
+
+                return true;
+            } catch (HttpClientErrorException e) {
+                String requestDescription = (request!= null && Strings.isNullOrEmpty(request.toString()))? "" :
+                        request.getHeaders() + " .. }>";
+                LOG.error("HTTP-ERROR: " + e.getStatusCode() + " on " + uri.toString() + " with request: " + requestDescription);
+                return false;
+            } catch (RestClientException e) {
+                String requestDescription = (request!= null && Strings.isNullOrEmpty(request.toString()))? "" : request.getHeaders() + " .. }>";
+                String msg = "Unexpected error on HTTP-Request to " + uri + " with request: " + requestDescription + ". " +
+                        "Retrying ( " + retries + " retries remaining)";
+                if (retries>=maxRetries) LOG.error(msg,e);
+                else {
+                    LOG.debug(msg, e);
+                    try {
+                        Thread.sleep(retries*1000);
+                    } catch (InterruptedException e1) {
+                        LOG.error("Retry process interrupted");
+                        return false;
+                    }
+                }
+            }
 
         }
-		
-		
-	}
+        return false;
+    }
+
+    private void savePartItemLibrairy(BBBResource book, int page) throws
+            JsonProcessingException {
+
+        for (DataChapter chapter : book.getChapters()) {
 
 
-	private boolean saveBookLibrairy(BBBResource book, String content) {
-		
-		
-		  //Document document = Resource.newDocument(book.getName());
-          //document.setUri(uriGenerator.from(Resource.Type.DOCUMENT, book.getHash()));
-          
-          //document.setPublishedOn(book.getEditionYear());
+            JsonNode domainJson = this.jsonMapper.createObjectNode();
 
-          //String authors="";
-          //for (String author : book.getAuthors())
-          	//	authors = authors+ ", "+author;
-          //if (authors.length()>0) authors=authors.substring(0, authors.length()-1);
-      
-          //document.setAuthoredBy(authors);
-
-          
-          // -> retrievedOn
-          //document.setRetrievedOn(TimeUtils.asISO());
-
-          // -> description
-          //document.setDescription(book.getSummary());
+            ((ObjectNode) domainJson).put("language", "EN");
+            ((ObjectNode) domainJson).put("content", chapter.getText());
+            //domainJson.put("id", chapter.getId());
+            //domainJson.put("uri", "http://librairy.org/parts/"+chapter.getId());
 
 
-          //udm.save(document);
-          //LOG.info("New document: " + document.getUri());
+            RestTemplate restTemplate = new RestTemplate();
 
-
-          // Relate it to Source
-          //udm.save(Relation.newProvides(uriGenerator.from(Resource.Type.SOURCE, "default"),document.getUri()));
-          // Relate it to Domain
-          //udm.save(Relation.newContains(uriGenerator.from(Resource.Type.DOMAIN, "default"),document.getUri()));
-          // Relate it to Document
-          
-		
-		
-	  	//Clean 
-	 	 Escaper escaper = Escapers.builder()
-	             .addEscape('\'',"_")
-	             .addEscape('('," ")
-	             .addEscape(')'," ")
-	             .addEscape('['," ")
-	             .addEscape(']'," ")
-	             .addEscape('“',"\"")
-	             .addEscape('"'," ")
-	             .addEscape('…'," ")
-	             .addEscape('‘'," ")
-	             .addEscape('\n'," ")
-	             .addEscape('‘'," ")
-	             .addEscape('´'," ")
-	             .build();
-	 	 ;
-	 	 
-	 	 
-	  			String nameEncode = Normalizer.normalize(book.getName(), Normalizer.Form.NFD);
-	  			nameEncode = escaper.escape(nameEncode);
-	  			nameEncode = nameEncode.replaceAll("\\P{Print}", "");
-	  			//text = text.replaceAll("[^\\x00-\\x7F]", "");
-	  			//text = text.replaceAll("\\P{InBasic_Latin}", "");
-	  			//text = text.replaceAll("\\p{Cc}", "");
-  	  		//text= text.replaceAll("[\u0000-\u001f]", "" );
-
-
-	  			byte ptext[] = nameEncode.getBytes(ISO_8859_1); 
-	  			nameEncode = new String(ptext, UTF_8); 
-	  			
-    	
-	    JSONObject domainJson = new JSONObject();
-	    try {
-			domainJson.put("name", nameEncode);
-			domainJson.put("language", "EN");
-			domainJson.put("content", content );
-			//domainJson.put("uri", "http://librairy.org/items/"+book.getHash());
-
-
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-
-	    
-
-
-    	
-    	 RestTemplate restTemplate = new RestTemplate();
-
-   	  //Build Headers
-         HttpHeaders headers = new HttpHeaders();
-         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
-         headers.setContentType(MediaType.APPLICATION_JSON);
-
-         //Build Request
-    	
-         HttpEntity<String> request = new HttpEntity<String>(domainJson.toString(), headers);
-         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointLibrairy()+"documents/"+book.getHash());
-         
-
-         System.out.println(builder.build().encode().toUri());
-
-        ResponseEntity<String> response = null;
-		try {
-			response = restTemplate.exchange( builder.build().encode().toUri(),
-			        HttpMethod.POST,
-			        request,
-			        String.class);
-		} 
-		catch (HttpClientErrorException e) {
-			// TODO Auto-generated catch block
-	        if (e.getStatusCode() == HttpStatus.CONFLICT) 
-	        	System.out.println("Conflict with resource " + book.getHash());
-	        else e.printStackTrace();
-	        return false;
-			
-		}
-			catch (RestClientException e) {
-			// TODO Auto-generated catch block
-				e.printStackTrace();
-			
-		}
-        //System.out.println(response.getBody());
-
-       // Gson gson = new Gson();
-       // LibrairyDocument document = gson.fromJson(response.getBody(), LibrairyDocument.class);
-        
-		
-        // return document;
-		return true;
-	}
-
-
-	private static String retrieveTextChapter(RestTemplate restTemplate, HttpEntity<String> request, String seoBook, String id) {
-		
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointURL()+"/resources/"+seoBook+"/components/"+id);
-        //System.out.println( builder.build().encode().toUri());
-        ResponseEntity<BBChapter> response = restTemplate.exchange( builder.build().encode().toUri(),
-                HttpMethod.GET,
-                request,
-                BBChapter.class);
-        
-        if (response.getStatusCode() == HttpStatus.OK && response.getBody() == null) return "";
-		return response.getBody().getData().getText();
-	}
-
-
-	private static BBResourceUnit retrieveChapters(RestTemplate restTemplate, HttpEntity<String> request,
-			String seoBook) {
-
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointURL()+"/resources/"+seoBook+"/reader");
-                  
-        
-        ResponseEntity<BBResourceUnit> response = restTemplate.exchange( builder.build().encode().toUri(),
-                HttpMethod.GET,
-                request,
-                BBResourceUnit.class);
-        
-
-		
-        return response.getBody();
-	}
-
-
-	private static List<BBBResource> getBooksInPage(RestTemplate restTemplate, HttpEntity<String> request, int p) {
-   
-        int numRetry = 0;
-        boolean thereIsAnswer = false;  
-        ResponseEntity<BBBResource[]> response = null;
-
-		
-        
-        while (!thereIsAnswer && numRetry < 20 ){
-        	
-      	  RestTemplate restTemplate2 = new RestTemplate();
-
-      	  //Build Headers
+            //Build Headers
             HttpHeaders headers = new HttpHeaders();
-            headers.add("x-api-key", Conf.getApikey());
             headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
             headers.setContentType(MediaType.APPLICATION_JSON);
 
-            //Build Request
-            HttpEntity<BBBResource[]>  request2 = new HttpEntity<BBBResource[]>(headers);
-            
-            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointURL()+"/resources")
-          	        .queryParam("type", "epub").queryParam("lang", "eng").queryParam("nrows", "100").queryParam("page", p);
-              
-            
-            
-          response = restTemplate2.exchange( builder.build().encode().toUri(),
-                  HttpMethod.GET,
-                  request2,
-                  BBBResource[].class);
-         if(response.getBody() != null) thereIsAnswer = true;
-         else{
-        	 try {
-				Thread.sleep(2000);
-				System.out.println("Retrying: " + builder.build().encode().toUri());
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-         }
+            //Create Part
+            HttpEntity<String> request = new HttpEntity<String>(jsonMapper.writeValueAsString(domainJson), headers);
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointLibrairy() + "parts/" + chapter.getId());
 
-         numRetry++;
+            if (executePOSTQuery(restTemplate, builder, request)){
+                numChaptersSaved.getAndIncrement();
+
+
+                HttpEntity<String> requestLinkPartDocument = new HttpEntity<String>(headers);
+                UriComponentsBuilder builderLinkPartDocument = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointLibrairy
+                        () + "documents/" + book.getHash() + "/parts/" + chapter.getId());
+
+                if (executePOSTQuery(restTemplate, builderLinkPartDocument, requestLinkPartDocument)){
+                    numChaptersAssociated.getAndIncrement();
+                    numChaptersInDomain.getAndIncrement();
+                }else{
+                    LOG.warn("Chapter '" + chapter.getId()+"' not associated to book '"+book.getHash()+"' and not in " +
+                            "domain");
+                    numChaptersNotInDomain.getAndIncrement();
+                }
+
+            }else{
+                LOG.warn("Chapter '" + chapter.getId()+"' from book '"+book.getHash()+"' not saved");
+                numChaptersNotSaved.getAndIncrement();
+            }
         }
 
-		return new ArrayList<BBBResource>(Arrays.asList(response.getBody()));
-	}
+
+    }
 
 
-	private static int getNumPages(RestTemplate restTemplate, HttpEntity<String> request) {
-		
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointURL()+"/resources")
-    	        .queryParam("type", "epub").queryParam("lang", "en").queryParam("nrows", "100");
+    private boolean saveBookLibrairy(BBBResource book, String content) throws JsonProcessingException {
 
-        // Launch Get           
-        ResponseEntity<BBBResource[]> response = restTemplate.exchange( builder.build().encode().toUri(),
-                HttpMethod.GET,
+        Escaper escaper = Escapers.builder()
+                .addEscape('\'', "_")
+                .addEscape('(', " ")
+                .addEscape(')', " ")
+                .addEscape('[', " ")
+                .addEscape(']', " ")
+                .addEscape('“', "\"")
+                .addEscape('"', " ")
+                .addEscape('…', " ")
+                .addEscape('‘', " ")
+                .addEscape('\n', " ")
+                .addEscape('‘', " ")
+                .addEscape('´', " ")
+                .build();
+        ;
+
+
+        String nameEncode = Normalizer.normalize(book.getName(), Normalizer.Form.NFD);
+        nameEncode = escaper.escape(nameEncode);
+        nameEncode = nameEncode.replaceAll("\\P{Print}", "");
+        //text = text.replaceAll("[^\\x00-\\x7F]", "");
+        //text = text.replaceAll("\\P{InBasic_Latin}", "");
+        //text = text.replaceAll("\\p{Cc}", "");
+        //text= text.replaceAll("[\u0000-\u001f]", "" );
+
+
+        byte ptext[] = nameEncode.getBytes(ISO_8859_1);
+        nameEncode = new String(ptext, UTF_8);
+
+
+        JsonNode domainJson = this.jsonMapper.createObjectNode();
+
+        ((ObjectNode) domainJson).put("name", nameEncode);
+        ((ObjectNode) domainJson).put("language", "EN");
+        ((ObjectNode) domainJson).put("content", content);
+        //domainJson.put("uri", "http://librairy.org/items/"+book.getHash());
+
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        //Build Headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        //Build Request
+
+        HttpEntity<String> request = new HttpEntity<String>(jsonMapper.writeValueAsString(domainJson), headers);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointLibrairy() + "documents/" +
+				book.getHash());
+
+
+        LOG.debug(builder.build().encode().toUri().toString());
+
+        if (executePOSTQuery(restTemplate, builder, request)){
+            numBooksSaved.getAndIncrement();
+            return true;
+        }else{
+            LOG.warn("Book '" + book.getHash() +"' not saved");
+            numBooksNotSaved.getAndIncrement();
+            return false;
+        }
+    }
+
+
+    private static String retrieveTextChapter(RestTemplate restTemplate, HttpEntity<String> request, String seoBook, String id) throws ApiError {
+
+        try{
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointURL() + "/resources/" +
+                    seoBook + "/components/" + id);
+            //LOG.debug( builder.build().encode().toUri());
+            ResponseEntity<BBChapter> response = restTemplate.exchange(builder.build().encode().toUri(),
+                    HttpMethod.GET,
+                    request,
+                    BBChapter.class);
+
+            if (response.getStatusCode() == HttpStatus.OK && response.getBody() == null) return "";
+            return response.getBody().getData().getText();
+        }catch (Exception e){
+            throw new ApiError(e);
+        }
+    }
+
+
+    private static BBResourceUnit retrieveChapters(RestTemplate restTemplate, HttpEntity<String> request, String seoBook) throws ApiError {
+
+        try{
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointURL() + "/resources/" +
+                    seoBook + "/reader");
+            ResponseEntity<BBResourceUnit> response = restTemplate.exchange(builder.build().encode().toUri(),
+                    HttpMethod.GET,
+                    request,
+                    BBResourceUnit.class);
+
+
+            return response.getBody();
+        }catch (Exception e){
+            throw new ApiError(e);
+        }
+
+
+    }
+
+
+    private List<BBBResource> getBooksInPage(RestTemplate restTemplate, HttpEntity<String> request, int p) throws ApiError {
+
+        try{
+            int numRetry = 0;
+            boolean thereIsAnswer = false;
+            ResponseEntity<BBBResource[]> response = null;
+
+
+            while (!thereIsAnswer && numRetry < 20) {
+
+                RestTemplate restTemplate2 = new RestTemplate();
+
+                //Build Headers
+                HttpHeaders headers = new HttpHeaders();
+                headers.add("x-api-key", Conf.getApikey());
+                headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+                headers.setContentType(MediaType.APPLICATION_JSON);
+
+                //Build Request
+                HttpEntity<BBBResource[]> request2 = new HttpEntity<BBBResource[]>(headers);
+
+                UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointURL() + "/resources")
+                        .queryParam("type", "epub").queryParam("lang", "eng").queryParam("nrows", String.valueOf(querySize)).queryParam
+                                ("page", p);
+
+
+                response = restTemplate2.exchange(builder.build().encode().toUri(),
+                        HttpMethod.GET,
+                        request2,
+                        BBBResource[].class);
+                if (response.getBody() != null) thereIsAnswer = true;
+                else {
+                    try {
+                        Thread.sleep(2000);
+                        LOG.debug("Retrying: " + builder.build().encode().toUri());
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        LOG.error("Unexpected error", e);
+                    }
+                }
+
+                numRetry++;
+            }
+
+            return new ArrayList<BBBResource>(Arrays.asList(response.getBody()));
+        }catch (Exception e){
+            throw new ApiError(e);
+        }
+
+    }
+
+
+    private static int getNumPages(RestTemplate restTemplate, HttpEntity<String> request) throws ApiError {
+
+
+        try{
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointURL() + "/resources")
+                    .queryParam("type", "epub").queryParam("lang", "en").queryParam("nrows", "100");
+            // Launch Get
+            ResponseEntity<BBBResource[]> response = restTemplate.exchange(builder.build().encode().toUri(),
+                    HttpMethod.GET,
+                    request,
+                    BBBResource[].class);
+
+            LOG.info("Response: " + response.getStatusCode());
+            LOG.info("x-limit: " + response.getHeaders().getFirst("x-limit"));
+            LOG.info("x-page: " + response.getHeaders().getFirst("x-page"));
+            LOG.info("x-total: " + response.getHeaders().getFirst("x-total"));
+            LOG.info("x-totalPages: " + response.getHeaders().getFirst("x-totalPages"));
+
+
+            return Integer.parseInt(response.getHeaders().getFirst("x-totalPages"));
+        }catch (Exception e){
+            throw new ApiError(e);
+        }
+    }
+
+    public void updateTopics() throws JsonProcessingException {
+        LOG.info("Updating topics in ..");
+        JsonNode domainJson = this.jsonMapper.createObjectNode();
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        //Build Headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        //Build Request
+
+        HttpEntity<String> request = new HttpEntity<String>(jsonMapper.writeValueAsString(domainJson), headers);
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointLibrairy() + "domains/" +
+                Conf.getRunConf() + "/topics");
+
+        URI uri = builder.build().encode().toUri();
+        LOG.debug("HTTP-PUT Request to: " + uri.toString());
+        ResponseEntity<String> response = restTemplate.exchange(uri,
+                HttpMethod.PUT,
                 request,
-                BBBResource[].class);
-        
-        LOG.info("Response: " + response.getStatusCode());
-        LOG.info("x-limit: " + response.getHeaders().getFirst("x-limit"));
-        LOG.info("x-page: " + response.getHeaders().getFirst("x-page"));
-        LOG.info("x-total: " + response.getHeaders().getFirst("x-total"));
-        LOG.info("x-totalPages: " + response.getHeaders().getFirst("x-totalPages"));
-        
-        
-        
-		return Integer.parseInt(response.getHeaders().getFirst("x-totalPages"));
-	}
+                String.class);
 
- 
-	
-	
+        LOG.info("Topics requested! " + response);
+    }
+
+
 }
 

@@ -11,7 +11,7 @@
 
 	<groupId>org.librairy</groupId>
     <artifactId>harvester-bluebottle</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>1.1</version>
     <packaging>jar</packaging>
     <name>harvester-bluebottle</name>
     <description>Harvester Bluebottle</description>
@@ -72,7 +72,9 @@
         <project.java.version>1.8</project.java.version>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.plugin.version>3.3</maven.compiler.plugin.version>
+        <gson.version>2.8.0</gson.version>
         <librairy.boot.version>0.32</librairy.boot.version>
+        <joda.version>2.9.7</joda.version>
         <junit.version>4.12</junit.version>
         <spring.version>4.2.7.RELEASE</spring.version>
         <testutils.version>1.0.0</testutils.version>
@@ -146,11 +148,11 @@
 
     <dependencies>
 
-        <!-- Internal Dependencies -->
-        <dependency>
-            <groupId>org.librairy</groupId>
-            <artifactId>librairy-boot</artifactId>
-        </dependency>
+        <!--&lt;!&ndash; Internal Dependencies &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.librairy</groupId>-->
+            <!--<artifactId>librairy-boot</artifactId>-->
+        <!--</dependency>-->
 
         <!-- Unit tests Libraries -->
         <dependency>
@@ -198,6 +200,20 @@
 	            <artifactId>springfox-swagger-ui</artifactId>
 	            <version>${springfox-version}</version>
 	        </dependency>
+
+        <!-- Google GSON -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
+        </dependency>
+
+        <!-- Joda Time -->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>${joda.version}</version>
+        </dependency>
 
     </dependencies>
 

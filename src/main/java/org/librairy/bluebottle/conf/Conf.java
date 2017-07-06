@@ -1,5 +1,7 @@
 package org.librairy.bluebottle.conf;
 
+import java.util.Optional;
+
 public class Conf {
 	static String endpointURL = "http://api.staging.bluebottlebiz.com/";
 	static String endpointLibrairy = "http://138.100.15.128:9999/api/";
@@ -13,6 +15,7 @@ public class Conf {
 	static int w2vDelay = 600000;
 	static int forcePages = 0;
 	static int startPage = 0;
+	static Optional<Integer> topics = Optional.empty();
 
 	static boolean parallelProcessing = false;
 	  
@@ -90,7 +93,8 @@ public class Conf {
 	public static void setStartPage(int startPage) {
 		Conf.startPage = startPage;
 	}
-
+	public static Optional<Integer> getTopics(){return topics;}
+	public static void setTopics(int topics){ Conf.topics = Optional.of(topics);}
 	
 	
 

@@ -14,7 +14,7 @@
         </encoder>
     </appender>
 
-    <logger name="org.librairy.bluebottle" level="Harvester-BlueBottle"/>
+    <logger name="org.librairy.bluebottle" level="INFO"/>
     
     <root level="ERROR">
         <appender-ref ref="STDOUT" />
