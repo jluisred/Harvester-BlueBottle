@@ -16,6 +16,11 @@ public class CacheBB {
 	
 	String folder = "./cache/";
 
+	public CacheBB(){
+		File file = new File(folder);
+		if (!file.exists()) file.mkdirs();
+	}
+
 	public boolean containsPage(int p) {
 		File page = new File (folder+"Page"+p);
 		return  (page.exists());
@@ -27,7 +32,9 @@ public class CacheBB {
 		
 		FileOutputStream fos;
 		try {
-			fos = new FileOutputStream(folder+"Page"+p);
+			File file = new File(folder+"Page"+p);
+			if (!file.exists()) file.createNewFile();
+			fos = new FileOutputStream(file);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(books);
 			oos.close();
@@ -73,7 +80,9 @@ public class CacheBB {
 	public void saveResource(BBResourceUnit resource, String seoBook) {
 		FileOutputStream fos;
 		try {
-			fos = new FileOutputStream(folder+"Resource"+seoBook);
+			File file = new File(folder+"Resource"+seoBook);
+			if (!file.exists()) file.createNewFile();
+			fos = new FileOutputStream(file);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(resource);
 			oos.close();
@@ -118,7 +127,9 @@ public class CacheBB {
 	public void saveTextChapter(String text, String id) {
 		FileOutputStream fos;
 		try {
-			fos = new FileOutputStream(folder+"TextChapter"+id);
+			File file = new File(folder+"TextChapter"+id);
+			if (!file.exists()) file.createNewFile();
+			fos = new FileOutputStream(file);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(text);
 			oos.close();

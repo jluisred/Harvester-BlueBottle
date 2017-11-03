@@ -4,9 +4,9 @@ import java.util.Optional;
 
 public class Conf {
 	static String endpointURL = "http://api.staging.bluebottlebiz.com/";
-	static String endpointLibrairy = "http://138.100.15.128:9999/api/";
-	//static String endpointLibrairy = "http://minetur.dia.fi.upm.es:9999/api/";
 	static String apikey = "e62f85c0-8ed2-11e6-96d5-b8aeed74afe3";
+	static String endpointLibrairy = "http://librairy.org/api/";
+	static String userLibrairy = "user:password";
 	static String runConf = "blueBottle";
 	static boolean cacheEnabled = false;
 	static boolean loadGT= false;
@@ -18,8 +18,14 @@ public class Conf {
 	static Optional<Integer> topics = Optional.empty();
 
 	static boolean parallelProcessing = false;
-	  
-	  
+
+
+	public static String getUserLibrairy() {
+		return userLibrairy;
+	}
+	public static void setUserLibrairy(String userLibrairy) {
+		Conf.userLibrairy = userLibrairy;
+	}
 	public static String getRunConf() {
 		return runConf;
 	}

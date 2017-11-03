@@ -87,6 +87,7 @@ public class Application {
 		 String varName = System.getenv("LIBRAIRY_HARVESTER_CORPUS_NAME");
 		 
 		 String varEndpointLibrairy = System.getenv("LIBRAIRY_HARVESTER_ENDPOINT_LIBRAIRY");
+         String varUserLibrairy = System.getenv("LIBRAIRY_HARVESTER_USER_LIBRAIRY");
 		 String varEndpoint = System.getenv("LIBRAIRY_HARVESTER_ENDPOINT_CLIENT");
 		 String varApikey = System.getenv("LIBRAIRY_HARVESTER_ENDPOINT_CLIENT_APIKEY");
 		 String varCache = System.getenv("LIBRAIRY_HARVESTER_CACHE_ENABLED");
@@ -106,9 +107,9 @@ public class Application {
 
          if (varEndpointLibrairy != null && !varEndpointLibrairy.isEmpty()) 
            	Conf.setEndpointLibrairy(varEndpointLibrairy);
-         
-         
-         
+
+         if (varUserLibrairy != null && !varUserLibrairy.isEmpty())
+            Conf.setUserLibrairy(varUserLibrairy);
          
          if (varApikey != null && !varApikey.isEmpty()) 
           	Conf.setApikey(varApikey);
@@ -142,6 +143,7 @@ public class Application {
 
          System.out.println("Domain Name: " + Conf.getRunConf());
          System.out.println("Librairy URL: " + Conf.getEndpointLibrairy());
+         System.out.println("Librairy Auth: " + Conf.getUserLibrairy());
          System.out.println("Endpoint URL: " + Conf.getEndpointURL());
          System.out.println("API key: " + Conf.getApikey());
          System.out.println("Cache enabled: " + Conf.isCacheEnabled());

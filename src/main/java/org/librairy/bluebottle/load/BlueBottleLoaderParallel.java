@@ -9,12 +9,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Strings;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.librairy.bluebottle.cache.CacheBB;
 import org.librairy.bluebottle.conf.Conf;
 import org.librairy.bluebottle.datastructure.BBBResource;
@@ -195,7 +197,8 @@ public class BlueBottleLoaderParallel {
 
             final int currentPage = p;
             //Conf.isParallelProcessing()
-            books.parallelStream().forEach( book -> {
+            Stream<BBBResource> stream = Conf.isParallelProcessing()? books.parallelStream() : books.stream();
+            stream.forEach( book -> {
                 numBooks.getAndIncrement();
                 try {
                     processBook(restTemplate, request, book, domain, currentPage);
@@ -254,10 +257,15 @@ public class BlueBottleLoaderParallel {
 
         RestTemplate restTemplate = new RestTemplate();
 
+        byte[] plainCredsBytes = Conf.getUserLibrairy().getBytes();
+        byte[] base64CredsBytes = Base64.encodeBase64(plainCredsBytes);
+        String base64Creds = new String(base64CredsBytes);
+
         //Build Headers
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("Authorization", "Basic " + base64Creds);
 
 
         //Build Request
@@ -312,10 +320,15 @@ public class BlueBottleLoaderParallel {
 
         RestTemplate restTemplate = new RestTemplate();
 
+        byte[] plainCredsBytes = Conf.getUserLibrairy().getBytes();
+        byte[] base64CredsBytes = Base64.encodeBase64(plainCredsBytes);
+        String base64Creds = new String(base64CredsBytes);
+
         //Build Headers
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("Authorization", "Basic " + base64Creds);
 
 
         //Build Request
@@ -510,16 +523,25 @@ public class BlueBottleLoaderParallel {
 
         RestTemplate restTemplate = new RestTemplate();
 
+        byte[] plainCredsBytes = Conf.getUserLibrairy().getBytes();
+        byte[] base64CredsBytes = Base64.encodeBase64(plainCredsBytes);
+        String base64Creds = new String(base64CredsBytes);
+
+
         //Build Headers
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+//        headers.set("Authorization", "bb 8d594825");
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("Authorization", "Basic " + base64Creds);
+
+//        restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("username", "password"))
 
         //Build Request
 
         HttpEntity<String> request = new HttpEntity<String>(jsonMapper.writeValueAsString(domainJson), headers);
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointLibrairy() + "domains/" +
-				domain + "/documents/" + documentID);
+				domain + "/items/" + documentID);
 
 
         if (executePOSTQuery(restTemplate, builder, request)){
@@ -550,7 +572,8 @@ public class BlueBottleLoaderParallel {
             } catch (HttpClientErrorException e) {
                 String requestDescription = (request!= null && Strings.isNullOrEmpty(request.toString()))? "" :
                         request.getHeaders() + " .. }>";
-                LOG.error("HTTP-ERROR: " + e.getStatusCode() + " on " + uri.toString() + " with request: " + requestDescription);
+                LOG.warn("HTTP-ERROR: " + e.getStatusCode() + " on " + uri.toString() + " with request: " + requestDescription);
+                if (e.getStatusCode().equals(HttpStatus.CONFLICT)) return true;
                 return false;
             } catch (RestClientException e) {
                 String requestDescription = (request!= null && Strings.isNullOrEmpty(request.toString()))? "" : request.getHeaders() + " .. }>";
@@ -588,10 +611,15 @@ public class BlueBottleLoaderParallel {
 
             RestTemplate restTemplate = new RestTemplate();
 
+            byte[] plainCredsBytes = Conf.getUserLibrairy().getBytes();
+            byte[] base64CredsBytes = Base64.encodeBase64(plainCredsBytes);
+            String base64Creds = new String(base64CredsBytes);
+
             //Build Headers
             HttpHeaders headers = new HttpHeaders();
             headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
             headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.add("Authorization", "Basic " + base64Creds);
 
             //Create Part
             HttpEntity<String> request = new HttpEntity<String>(jsonMapper.writeValueAsString(domainJson), headers);
@@ -603,7 +631,7 @@ public class BlueBottleLoaderParallel {
 
                 HttpEntity<String> requestLinkPartDocument = new HttpEntity<String>(headers);
                 UriComponentsBuilder builderLinkPartDocument = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointLibrairy
-                        () + "documents/" + book.getHash() + "/parts/" + chapter.getId());
+                        () + "items/" + book.getHash() + "/parts/" + chapter.getId());
 
                 if (executePOSTQuery(restTemplate, builderLinkPartDocument, requestLinkPartDocument)){
                     numChaptersAssociated.getAndIncrement();
@@ -667,15 +695,20 @@ public class BlueBottleLoaderParallel {
 
         RestTemplate restTemplate = new RestTemplate();
 
+        byte[] plainCredsBytes = Conf.getUserLibrairy().getBytes();
+        byte[] base64CredsBytes = Base64.encodeBase64(plainCredsBytes);
+        String base64Creds = new String(base64CredsBytes);
+
         //Build Headers
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("Authorization", "Basic " + base64Creds);
 
         //Build Request
 
         HttpEntity<String> request = new HttpEntity<String>(jsonMapper.writeValueAsString(domainJson), headers);
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointLibrairy() + "documents/" +
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Conf.getEndpointLibrairy() + "items/" +
 				book.getHash());
 
 
@@ -814,10 +847,15 @@ public class BlueBottleLoaderParallel {
 
         RestTemplate restTemplate = new RestTemplate();
 
+        byte[] plainCredsBytes = Conf.getUserLibrairy().getBytes();
+        byte[] base64CredsBytes = Base64.encodeBase64(plainCredsBytes);
+        String base64Creds = new String(base64CredsBytes);
+
         //Build Headers
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("Authorization", "Basic " + base64Creds);
 
         //Build Request
 
