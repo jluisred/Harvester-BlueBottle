@@ -64,7 +64,7 @@ public class Application {
             LOG.info("All documents retrieved in: "
                     + ChronoUnit.HOURS.between(startModel,endModel) + "hours "
                     + ChronoUnit.MINUTES.between(startModel,endModel)%60 + "min "
-                    + (ChronoUnit.SECONDS.between(startModel,endModel)%60) + "secs");
+                    + (ChronoUnit.SECONDS.between(startModel,endModel)%3600) + "secs");
 
             // Update Topics for Domain
             loader.updateTopics();
