@@ -1,0 +1,562 @@
+20180220-16:58:12.545 [Harvester-BlueBottle] [main] [1;31mERROR[0;39m [36mo.l.b.s.ImportService[0;39m - Error on api request 
+org.librairy.bluebottle.exception.ApiError: java.lang.NullPointerException
+	at org.librairy.bluebottle.services.BBClient.getBooks(BBClient.java:115) ~[classes/:na]
+	at org.librairy.bluebottle.services.ImportService.retrieve(ImportService.java:41) [classes/:na]
+	at org.librairy.bluebottle.services.ImportService.main(ImportService.java:124) [classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_73]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_73]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_73]
+	at java.lang.reflect.Method.invoke(Method.java:497) ~[na:1.8.0_73]
+	at com.intellij.rt.execution.application.AppMain.main(AppMain.java:144) [idea_rt.jar:na]
+Caused by: java.lang.NullPointerException: null
+	at org.librairy.bluebottle.services.BBClient.getBooks(BBClient.java:91) ~[classes/:na]
+	... 7 common frames omitted
+20180220-16:58:12.548 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - 0 actions/books ready to be performed/retrieved! 
+20180220-16:58:12.594 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - All books retrieved in: 0hours 0min 0secs 
+20180220-17:10:22.680 [Harvester-BlueBottle] [main] [1;31mERROR[0;39m [36mo.l.b.s.ImportService[0;39m - Error on api request 
+org.librairy.bluebottle.exception.ApiError: com.mashape.unirest.http.exceptions.UnirestException: java.lang.RuntimeException: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at org.librairy.bluebottle.services.BBClient.getBooks(BBClient.java:96) ~[classes/:na]
+	at org.librairy.bluebottle.services.ImportService.retrieve(ImportService.java:41) [classes/:na]
+	at org.librairy.bluebottle.services.ImportService.main(ImportService.java:124) [classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_73]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_73]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_73]
+	at java.lang.reflect.Method.invoke(Method.java:497) ~[na:1.8.0_73]
+	at com.intellij.rt.execution.application.AppMain.main(AppMain.java:144) [idea_rt.jar:na]
+Caused by: com.mashape.unirest.http.exceptions.UnirestException: java.lang.RuntimeException: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at com.mashape.unirest.http.HttpClientHelper.request(HttpClientHelper.java:143) ~[unirest-java-1.4.9.jar:na]
+	at com.mashape.unirest.request.BaseRequest.asObject(BaseRequest.java:80) ~[unirest-java-1.4.9.jar:na]
+	at org.librairy.bluebottle.services.BBClient.getBooks(BBClient.java:74) ~[classes/:na]
+	... 7 common frames omitted
+Caused by: java.lang.RuntimeException: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at com.mashape.unirest.http.HttpResponse.<init>(HttpResponse.java:106) ~[unirest-java-1.4.9.jar:na]
+	at com.mashape.unirest.http.HttpClientHelper.request(HttpClientHelper.java:139) ~[unirest-java-1.4.9.jar:na]
+	... 9 common frames omitted
+Caused by: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at com.mashape.unirest.http.HttpResponse.<init>(HttpResponse.java:103) ~[unirest-java-1.4.9.jar:na]
+	... 10 common frames omitted
+20180220-17:10:22.684 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - 0 actions/books ready to be performed/retrieved! 
+20180220-17:10:22.693 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - All books retrieved in: 0hours 0min 0secs 
+20180220-17:11:33.545 [Harvester-BlueBottle] [main] [1;31mERROR[0;39m [36mo.l.b.s.ImportService[0;39m - Error on api request 
+org.librairy.bluebottle.exception.ApiError: com.mashape.unirest.http.exceptions.UnirestException: java.lang.RuntimeException: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at org.librairy.bluebottle.services.BBClient.getBooks(BBClient.java:125) ~[classes/:na]
+	at org.librairy.bluebottle.services.ImportService.retrieve(ImportService.java:41) [classes/:na]
+	at org.librairy.bluebottle.services.ImportService.main(ImportService.java:124) [classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_73]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_73]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_73]
+	at java.lang.reflect.Method.invoke(Method.java:497) ~[na:1.8.0_73]
+	at com.intellij.rt.execution.application.AppMain.main(AppMain.java:144) [idea_rt.jar:na]
+Caused by: com.mashape.unirest.http.exceptions.UnirestException: java.lang.RuntimeException: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at com.mashape.unirest.http.HttpClientHelper.request(HttpClientHelper.java:143) ~[unirest-java-1.4.9.jar:na]
+	at com.mashape.unirest.request.BaseRequest.asObject(BaseRequest.java:80) ~[unirest-java-1.4.9.jar:na]
+	at org.librairy.bluebottle.services.BBClient.getBooks(BBClient.java:103) ~[classes/:na]
+	... 7 common frames omitted
+Caused by: java.lang.RuntimeException: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at com.mashape.unirest.http.HttpResponse.<init>(HttpResponse.java:106) ~[unirest-java-1.4.9.jar:na]
+	at com.mashape.unirest.http.HttpClientHelper.request(HttpClientHelper.java:139) ~[unirest-java-1.4.9.jar:na]
+	... 9 common frames omitted
+Caused by: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at com.mashape.unirest.http.HttpResponse.<init>(HttpResponse.java:103) ~[unirest-java-1.4.9.jar:na]
+	... 10 common frames omitted
+20180220-17:11:33.548 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - 0 actions/books ready to be performed/retrieved! 
+20180220-17:11:33.555 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - All books retrieved in: 0hours 0min 0secs 
+20180220-17:12:26.148 [Harvester-BlueBottle] [main] [1;31mERROR[0;39m [36mo.l.b.s.ImportService[0;39m - Error on api request 
+org.librairy.bluebottle.exception.ApiError: com.mashape.unirest.http.exceptions.UnirestException: java.lang.RuntimeException: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at org.librairy.bluebottle.services.BBClient.getBooks(BBClient.java:125) ~[classes/:na]
+	at org.librairy.bluebottle.services.ImportService.retrieve(ImportService.java:41) [classes/:na]
+	at org.librairy.bluebottle.services.ImportService.main(ImportService.java:124) [classes/:na]
+Caused by: com.mashape.unirest.http.exceptions.UnirestException: java.lang.RuntimeException: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at com.mashape.unirest.http.HttpClientHelper.request(HttpClientHelper.java:143) ~[unirest-java-1.4.9.jar:na]
+	at com.mashape.unirest.request.BaseRequest.asObject(BaseRequest.java:80) ~[unirest-java-1.4.9.jar:na]
+	at org.librairy.bluebottle.services.BBClient.getBooks(BBClient.java:103) ~[classes/:na]
+	... 2 common frames omitted
+Caused by: java.lang.RuntimeException: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at com.mashape.unirest.http.HttpResponse.<init>(HttpResponse.java:106) ~[unirest-java-1.4.9.jar:na]
+	at com.mashape.unirest.http.HttpClientHelper.request(HttpClientHelper.java:139) ~[unirest-java-1.4.9.jar:na]
+	... 4 common frames omitted
+Caused by: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at com.mashape.unirest.http.HttpResponse.<init>(HttpResponse.java:103) ~[unirest-java-1.4.9.jar:na]
+	... 5 common frames omitted
+20180220-17:12:26.151 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - 0 actions/books ready to be performed/retrieved! 
+20180220-17:12:26.163 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - All books retrieved in: 0hours 0min 0secs 
+20180220-17:15:03.653 [Harvester-BlueBottle] [main] [1;31mERROR[0;39m [36mo.l.b.s.ImportService[0;39m - Error on api request 
+org.librairy.bluebottle.exception.ApiError: com.mashape.unirest.http.exceptions.UnirestException: java.lang.RuntimeException: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at org.librairy.bluebottle.services.BBClient.getBooks(BBClient.java:123) ~[classes/:na]
+	at org.librairy.bluebottle.services.ImportService.retrieve(ImportService.java:41) [classes/:na]
+	at org.librairy.bluebottle.services.ImportService.main(ImportService.java:124) [classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_73]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_73]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_73]
+	at java.lang.reflect.Method.invoke(Method.java:497) ~[na:1.8.0_73]
+	at com.intellij.rt.execution.application.AppMain.main(AppMain.java:144) [idea_rt.jar:na]
+Caused by: com.mashape.unirest.http.exceptions.UnirestException: java.lang.RuntimeException: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at com.mashape.unirest.http.HttpClientHelper.request(HttpClientHelper.java:143) ~[unirest-java-1.4.9.jar:na]
+	at com.mashape.unirest.request.BaseRequest.asObject(BaseRequest.java:80) ~[unirest-java-1.4.9.jar:na]
+	at org.librairy.bluebottle.services.BBClient.getBooks(BBClient.java:101) ~[classes/:na]
+	... 7 common frames omitted
+Caused by: java.lang.RuntimeException: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at com.mashape.unirest.http.HttpResponse.<init>(HttpResponse.java:106) ~[unirest-java-1.4.9.jar:na]
+	at com.mashape.unirest.http.HttpClientHelper.request(HttpClientHelper.java:139) ~[unirest-java-1.4.9.jar:na]
+	... 9 common frames omitted
+Caused by: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at com.mashape.unirest.http.HttpResponse.<init>(HttpResponse.java:103) ~[unirest-java-1.4.9.jar:na]
+	... 10 common frames omitted
+20180220-17:15:03.657 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - 0 actions/books ready to be performed/retrieved! 
+20180220-17:15:03.666 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - All books retrieved in: 0hours 0min 0secs 
+20180220-17:17:08.100 [Harvester-BlueBottle] [main] [1;31mERROR[0;39m [36mo.l.b.s.ImportService[0;39m - Error on api request 
+org.librairy.bluebottle.exception.ApiError: com.mashape.unirest.http.exceptions.UnirestException: java.lang.RuntimeException: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at org.librairy.bluebottle.services.BBClient.getBooks(BBClient.java:123) ~[classes/:na]
+	at org.librairy.bluebottle.services.ImportService.retrieve(ImportService.java:41) [classes/:na]
+	at org.librairy.bluebottle.services.ImportService.main(ImportService.java:124) [classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_73]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_73]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_73]
+	at java.lang.reflect.Method.invoke(Method.java:497) ~[na:1.8.0_73]
+	at com.intellij.rt.execution.application.AppMain.main(AppMain.java:144) [idea_rt.jar:na]
+Caused by: com.mashape.unirest.http.exceptions.UnirestException: java.lang.RuntimeException: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at com.mashape.unirest.http.HttpClientHelper.request(HttpClientHelper.java:143) ~[unirest-java-1.4.9.jar:na]
+	at com.mashape.unirest.request.BaseRequest.asObject(BaseRequest.java:80) ~[unirest-java-1.4.9.jar:na]
+	at org.librairy.bluebottle.services.BBClient.getBooks(BBClient.java:101) ~[classes/:na]
+	... 7 common frames omitted
+Caused by: java.lang.RuntimeException: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at com.mashape.unirest.http.HttpResponse.<init>(HttpResponse.java:106) ~[unirest-java-1.4.9.jar:na]
+	at com.mashape.unirest.http.HttpClientHelper.request(HttpClientHelper.java:139) ~[unirest-java-1.4.9.jar:na]
+	... 9 common frames omitted
+Caused by: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at com.mashape.unirest.http.HttpResponse.<init>(HttpResponse.java:103) ~[unirest-java-1.4.9.jar:na]
+	... 10 common frames omitted
+20180220-17:17:08.103 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - 0 actions/books ready to be performed/retrieved! 
+20180220-17:17:08.110 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - All books retrieved in: 0hours 0min 0secs 
+20180220-17:18:02.064 [Harvester-BlueBottle] [main] [1;31mERROR[0;39m [36mo.l.b.s.ImportService[0;39m - Error on api request 
+org.librairy.bluebottle.exception.ApiError: com.mashape.unirest.http.exceptions.UnirestException: java.lang.RuntimeException: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at org.librairy.bluebottle.services.BBClient.getBooks(BBClient.java:124) ~[classes/:na]
+	at org.librairy.bluebottle.services.ImportService.retrieve(ImportService.java:41) [classes/:na]
+	at org.librairy.bluebottle.services.ImportService.main(ImportService.java:124) [classes/:na]
+Caused by: com.mashape.unirest.http.exceptions.UnirestException: java.lang.RuntimeException: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at com.mashape.unirest.http.HttpClientHelper.request(HttpClientHelper.java:143) ~[unirest-java-1.4.9.jar:na]
+	at com.mashape.unirest.request.BaseRequest.asObject(BaseRequest.java:80) ~[unirest-java-1.4.9.jar:na]
+	at org.librairy.bluebottle.services.BBClient.getBooks(BBClient.java:101) ~[classes/:na]
+	... 2 common frames omitted
+Caused by: java.lang.RuntimeException: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at com.mashape.unirest.http.HttpResponse.<init>(HttpResponse.java:106) ~[unirest-java-1.4.9.jar:na]
+	at com.mashape.unirest.http.HttpClientHelper.request(HttpClientHelper.java:139) ~[unirest-java-1.4.9.jar:na]
+	... 4 common frames omitted
+Caused by: java.lang.Exception: Only String, JsonNode and InputStream are supported, or an ObjectMapper implementation is required.
+	at com.mashape.unirest.http.HttpResponse.<init>(HttpResponse.java:103) ~[unirest-java-1.4.9.jar:na]
+	... 5 common frames omitted
+20180220-17:18:02.068 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - 0 actions/books ready to be performed/retrieved! 
+20180220-17:18:02.081 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - All books retrieved in: 0hours 0min 0secs 
+20180220-17:19:19.132 [Harvester-BlueBottle] [main] [1;31mERROR[0;39m [36mo.l.b.s.ImportService[0;39m - Error on api request 
+org.librairy.bluebottle.exception.ApiError: com.mashape.unirest.http.exceptions.UnirestException: java.lang.RuntimeException: java.lang.RuntimeException: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "format" (class org.librairy.bluebottle.datastructure.BBBResource), not marked as ignorable (16 known properties: "numRating", "seoBook", "authors", "name", "hash", "avgRating", "status", "contentType", "shares", "isbn", "subtitle", "editionYear", "reader", "summary", "bookCover", "chapters"])
+ at [Source: java.io.StringReader@609cd4d8; line: 1, column: 1171] (through reference chain: Object[][0]->org.librairy.bluebottle.datastructure.BBBResource["format"])
+	at org.librairy.bluebottle.services.BBClient.getBooks(BBClient.java:123) ~[classes/:na]
+	at org.librairy.bluebottle.services.ImportService.retrieve(ImportService.java:41) [classes/:na]
+	at org.librairy.bluebottle.services.ImportService.main(ImportService.java:124) [classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_73]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_73]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_73]
+	at java.lang.reflect.Method.invoke(Method.java:497) ~[na:1.8.0_73]
+	at com.intellij.rt.execution.application.AppMain.main(AppMain.java:144) [idea_rt.jar:na]
+Caused by: com.mashape.unirest.http.exceptions.UnirestException: java.lang.RuntimeException: java.lang.RuntimeException: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "format" (class org.librairy.bluebottle.datastructure.BBBResource), not marked as ignorable (16 known properties: "numRating", "seoBook", "authors", "name", "hash", "avgRating", "status", "contentType", "shares", "isbn", "subtitle", "editionYear", "reader", "summary", "bookCover", "chapters"])
+ at [Source: java.io.StringReader@609cd4d8; line: 1, column: 1171] (through reference chain: Object[][0]->org.librairy.bluebottle.datastructure.BBBResource["format"])
+	at com.mashape.unirest.http.HttpClientHelper.request(HttpClientHelper.java:143) ~[unirest-java-1.4.9.jar:na]
+	at com.mashape.unirest.request.BaseRequest.asObject(BaseRequest.java:80) ~[unirest-java-1.4.9.jar:na]
+	at org.librairy.bluebottle.services.BBClient.getBooks(BBClient.java:101) ~[classes/:na]
+	... 7 common frames omitted
+Caused by: java.lang.RuntimeException: java.lang.RuntimeException: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "format" (class org.librairy.bluebottle.datastructure.BBBResource), not marked as ignorable (16 known properties: "numRating", "seoBook", "authors", "name", "hash", "avgRating", "status", "contentType", "shares", "isbn", "subtitle", "editionYear", "reader", "summary", "bookCover", "chapters"])
+ at [Source: java.io.StringReader@609cd4d8; line: 1, column: 1171] (through reference chain: Object[][0]->org.librairy.bluebottle.datastructure.BBBResource["format"])
+	at com.mashape.unirest.http.HttpResponse.<init>(HttpResponse.java:106) ~[unirest-java-1.4.9.jar:na]
+	at com.mashape.unirest.http.HttpClientHelper.request(HttpClientHelper.java:139) ~[unirest-java-1.4.9.jar:na]
+	... 9 common frames omitted
+Caused by: java.lang.RuntimeException: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "format" (class org.librairy.bluebottle.datastructure.BBBResource), not marked as ignorable (16 known properties: "numRating", "seoBook", "authors", "name", "hash", "avgRating", "status", "contentType", "shares", "isbn", "subtitle", "editionYear", "reader", "summary", "bookCover", "chapters"])
+ at [Source: java.io.StringReader@609cd4d8; line: 1, column: 1171] (through reference chain: Object[][0]->org.librairy.bluebottle.datastructure.BBBResource["format"])
+	at org.librairy.bluebottle.services.BBClient$1.readValue(BBClient.java:47) ~[classes/:na]
+	at com.mashape.unirest.http.HttpResponse.<init>(HttpResponse.java:101) ~[unirest-java-1.4.9.jar:na]
+	... 10 common frames omitted
+Caused by: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "format" (class org.librairy.bluebottle.datastructure.BBBResource), not marked as ignorable (16 known properties: "numRating", "seoBook", "authors", "name", "hash", "avgRating", "status", "contentType", "shares", "isbn", "subtitle", "editionYear", "reader", "summary", "bookCover", "chapters"])
+ at [Source: java.io.StringReader@609cd4d8; line: 1, column: 1171] (through reference chain: Object[][0]->org.librairy.bluebottle.datastructure.BBBResource["format"])
+	at com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException.from(UnrecognizedPropertyException.java:51) ~[jackson-databind-2.6.6.jar:2.6.6]
+	at com.fasterxml.jackson.databind.DeserializationContext.reportUnknownProperty(DeserializationContext.java:839) ~[jackson-databind-2.6.6.jar:2.6.6]
+	at com.fasterxml.jackson.databind.deser.std.StdDeserializer.handleUnknownProperty(StdDeserializer.java:1045) ~[jackson-databind-2.6.6.jar:2.6.6]
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownProperty(BeanDeserializerBase.java:1352) ~[jackson-databind-2.6.6.jar:2.6.6]
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownVanilla(BeanDeserializerBase.java:1330) ~[jackson-databind-2.6.6.jar:2.6.6]
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.vanillaDeserialize(BeanDeserializer.java:264) ~[jackson-databind-2.6.6.jar:2.6.6]
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:125) ~[jackson-databind-2.6.6.jar:2.6.6]
+	at com.fasterxml.jackson.databind.deser.std.ObjectArrayDeserializer.deserialize(ObjectArrayDeserializer.java:156) ~[jackson-databind-2.6.6.jar:2.6.6]
+	at com.fasterxml.jackson.databind.deser.std.ObjectArrayDeserializer.deserialize(ObjectArrayDeserializer.java:17) ~[jackson-databind-2.6.6.jar:2.6.6]
+	at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:3736) ~[jackson-databind-2.6.6.jar:2.6.6]
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:2726) ~[jackson-databind-2.6.6.jar:2.6.6]
+	at org.librairy.bluebottle.services.BBClient$1.readValue(BBClient.java:45) ~[classes/:na]
+	... 11 common frames omitted
+20180220-17:19:19.134 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - 0 actions/books ready to be performed/retrieved! 
+20180220-17:19:19.142 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - All books retrieved in: 0hours 0min 0secs 
+20180220-17:20:13.569 [Harvester-BlueBottle] [main] [1;31mERROR[0;39m [36mo.l.b.s.ImportService[0;39m - Error on api request 
+org.librairy.bluebottle.exception.ApiError: com.mashape.unirest.http.exceptions.UnirestException: java.lang.RuntimeException: java.lang.RuntimeException: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "notAvailableCountry" (class org.librairy.bluebottle.datastructure.BBBResource), not marked as ignorable (17 known properties: "numRating", "seoBook", "authors", "name", "hash", "avgRating", "status", "contentType", "shares", "isbn", "format", "subtitle", "editionYear", "reader", "summary", "bookCover", "chapters"])
+ at [Source: java.io.StringReader@609cd4d8; line: 1, column: 1215] (through reference chain: Object[][0]->org.librairy.bluebottle.datastructure.BBBResource["notAvailableCountry"])
+	at org.librairy.bluebottle.services.BBClient.getBooks(BBClient.java:123) ~[classes/:na]
+	at org.librairy.bluebottle.services.ImportService.retrieve(ImportService.java:41) [classes/:na]
+	at org.librairy.bluebottle.services.ImportService.main(ImportService.java:124) [classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_73]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_73]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_73]
+	at java.lang.reflect.Method.invoke(Method.java:497) ~[na:1.8.0_73]
+	at com.intellij.rt.execution.application.AppMain.main(AppMain.java:144) [idea_rt.jar:na]
+Caused by: com.mashape.unirest.http.exceptions.UnirestException: java.lang.RuntimeException: java.lang.RuntimeException: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "notAvailableCountry" (class org.librairy.bluebottle.datastructure.BBBResource), not marked as ignorable (17 known properties: "numRating", "seoBook", "authors", "name", "hash", "avgRating", "status", "contentType", "shares", "isbn", "format", "subtitle", "editionYear", "reader", "summary", "bookCover", "chapters"])
+ at [Source: java.io.StringReader@609cd4d8; line: 1, column: 1215] (through reference chain: Object[][0]->org.librairy.bluebottle.datastructure.BBBResource["notAvailableCountry"])
+	at com.mashape.unirest.http.HttpClientHelper.request(HttpClientHelper.java:143) ~[unirest-java-1.4.9.jar:na]
+	at com.mashape.unirest.request.BaseRequest.asObject(BaseRequest.java:80) ~[unirest-java-1.4.9.jar:na]
+	at org.librairy.bluebottle.services.BBClient.getBooks(BBClient.java:101) ~[classes/:na]
+	... 7 common frames omitted
+Caused by: java.lang.RuntimeException: java.lang.RuntimeException: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "notAvailableCountry" (class org.librairy.bluebottle.datastructure.BBBResource), not marked as ignorable (17 known properties: "numRating", "seoBook", "authors", "name", "hash", "avgRating", "status", "contentType", "shares", "isbn", "format", "subtitle", "editionYear", "reader", "summary", "bookCover", "chapters"])
+ at [Source: java.io.StringReader@609cd4d8; line: 1, column: 1215] (through reference chain: Object[][0]->org.librairy.bluebottle.datastructure.BBBResource["notAvailableCountry"])
+	at com.mashape.unirest.http.HttpResponse.<init>(HttpResponse.java:106) ~[unirest-java-1.4.9.jar:na]
+	at com.mashape.unirest.http.HttpClientHelper.request(HttpClientHelper.java:139) ~[unirest-java-1.4.9.jar:na]
+	... 9 common frames omitted
+Caused by: java.lang.RuntimeException: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "notAvailableCountry" (class org.librairy.bluebottle.datastructure.BBBResource), not marked as ignorable (17 known properties: "numRating", "seoBook", "authors", "name", "hash", "avgRating", "status", "contentType", "shares", "isbn", "format", "subtitle", "editionYear", "reader", "summary", "bookCover", "chapters"])
+ at [Source: java.io.StringReader@609cd4d8; line: 1, column: 1215] (through reference chain: Object[][0]->org.librairy.bluebottle.datastructure.BBBResource["notAvailableCountry"])
+	at org.librairy.bluebottle.services.BBClient$1.readValue(BBClient.java:47) ~[classes/:na]
+	at com.mashape.unirest.http.HttpResponse.<init>(HttpResponse.java:101) ~[unirest-java-1.4.9.jar:na]
+	... 10 common frames omitted
+Caused by: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "notAvailableCountry" (class org.librairy.bluebottle.datastructure.BBBResource), not marked as ignorable (17 known properties: "numRating", "seoBook", "authors", "name", "hash", "avgRating", "status", "contentType", "shares", "isbn", "format", "subtitle", "editionYear", "reader", "summary", "bookCover", "chapters"])
+ at [Source: java.io.StringReader@609cd4d8; line: 1, column: 1215] (through reference chain: Object[][0]->org.librairy.bluebottle.datastructure.BBBResource["notAvailableCountry"])
+	at com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException.from(UnrecognizedPropertyException.java:51) ~[jackson-databind-2.6.6.jar:2.6.6]
+	at com.fasterxml.jackson.databind.DeserializationContext.reportUnknownProperty(DeserializationContext.java:839) ~[jackson-databind-2.6.6.jar:2.6.6]
+	at com.fasterxml.jackson.databind.deser.std.StdDeserializer.handleUnknownProperty(StdDeserializer.java:1045) ~[jackson-databind-2.6.6.jar:2.6.6]
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownProperty(BeanDeserializerBase.java:1352) ~[jackson-databind-2.6.6.jar:2.6.6]
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownVanilla(BeanDeserializerBase.java:1330) ~[jackson-databind-2.6.6.jar:2.6.6]
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.vanillaDeserialize(BeanDeserializer.java:264) ~[jackson-databind-2.6.6.jar:2.6.6]
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:125) ~[jackson-databind-2.6.6.jar:2.6.6]
+	at com.fasterxml.jackson.databind.deser.std.ObjectArrayDeserializer.deserialize(ObjectArrayDeserializer.java:156) ~[jackson-databind-2.6.6.jar:2.6.6]
+	at com.fasterxml.jackson.databind.deser.std.ObjectArrayDeserializer.deserialize(ObjectArrayDeserializer.java:17) ~[jackson-databind-2.6.6.jar:2.6.6]
+	at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:3736) ~[jackson-databind-2.6.6.jar:2.6.6]
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:2726) ~[jackson-databind-2.6.6.jar:2.6.6]
+	at org.librairy.bluebottle.services.BBClient$1.readValue(BBClient.java:45) ~[classes/:na]
+	... 11 common frames omitted
+20180220-17:20:13.571 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - 0 actions/books ready to be performed/retrieved! 
+20180220-17:20:13.579 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - All books retrieved in: 0hours 0min 0secs 
+20180220-17:23:06.147 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - 100 actions/books ready to be performed/retrieved! 
+20180220-17:24:06.573 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - 100 actions/books ready to be performed/retrieved! 
+20180220-17:24:06.620 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='_Xwz13rhKKapp', name='City State'} 
+20180220-17:24:06.620 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='oR94BXnuzmsoP', name='The Economist: Investment: An A-Z Guide'} 
+20180220-17:24:06.620 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Ep0L5J1aKsE', name='The Fish Rots From The Head'} 
+20180220-17:24:06.620 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Bq75bAyfw1iMW', name='The Economist Guide To Analysing Companies'} 
+20180220-17:24:06.620 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='1AYqmO7hoZT6p', name='The Dragon and the Elephant'} 
+20180220-17:24:06.620 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='QPp_13RU16Sv1', name='Managing Directors'} 
+20180220-17:24:06.620 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='2r79w5AINrF0_', name='The Economist: Economics: An A-Z Guide'} 
+20180220-17:24:06.620 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='qL_DGVWa4xuQX', name='The Economist: Successful Strategy Execution'} 
+20180220-17:24:08.429 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='n62zB_Qsdps0N', name='The Green Guide For Business'} 
+20180220-17:24:09.538 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='XKb813QUdSW', name='The 48 Laws Of Power'} 
+20180220-17:24:09.919 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='-o3JbG5C-Sx', name='The Game Changer'} 
+20180220-17:24:10.049 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='827wAm3iAZh7o', name='The 33 Strategies Of War'} 
+20180220-17:24:10.455 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='2r79w5AI3UV', name='The  Mis Behaviour of Markets'} 
+20180220-17:24:10.797 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='4D71GqocOC3', name='Buzz'} 
+20180220-17:24:11.869 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='8D71GqocyZFb2', name='The Economist Guide To Economic Indicators'} 
+20180220-17:24:12.567 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='boP1pwvCRpIxM', name='Rules Are Not Enough'} 
+20180220-17:24:12.705 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='r8ZxzK0t-pu1W', name='The Economist Guide To Supply Chain Management'} 
+20180220-17:24:13.694 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='wn_0dKJipzFyr', name='Supercorp'} 
+20180220-17:24:13.939 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='X9zA13xUMmC7A', name='The 50th Law'} 
+20180220-17:24:15.150 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='XXwz13Ni2S4', name='The Impoverishment of Nations'} 
+20180220-17:24:15.402 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='rL1yAYqh5co', name='The Economist: The World of Business'} 
+20180220-17:24:16.812 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='G97QKJdUNt1', name='Tell to Win'} 
+20180220-17:24:17.146 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='prVWvz1I2C-', name='The Question Book'} 
+20180220-17:24:17.265 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='0o3JqG5C31hYR', name='On the Fault Line'} 
+20180220-17:24:18.167 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='4N7_drBCOJFVw', name='Winning Without Losing'} 
+20180220-17:24:18.214 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='x79ymMlhb8F6Z', name='The Unwritten Laws of Finance and Investment'} 
+20180220-17:24:18.795 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='zbn-rMRhWwfxo', name='The Economist: Brands and Branding'} 
+20180220-17:24:19.659 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='QPm51JNUVOF2E', name='The Economist: Business Consulting'} 
+20180220-17:24:20.593 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='OP7BGJ5UVaZ', name='The Economist: Business Strategy'} 
+20180220-17:24:20.713 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='vr8QwJMSAeHqo', name='The Economist: Economics'} 
+20180220-17:24:21.566 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='4N7_JrBCnOUVo', name='Mapping The Markets'} 
+20180220-17:24:21.872 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='4v7_x52fQCm', name='The Economist Guide to Organisation Design'} 
+20180220-17:24:21.984 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='0-3JqG5U3Iy', name='The Economist Guide to Management Ideas and Gurus'} 
+20180220-17:24:22.073 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='yp_M62Qa-xcdm', name='Think Globally, Spend Locally'} 
+20180220-17:24:22.357 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='7q7Pv_9aJFz', name='The Economist: Directors: An A-Z Guide'} 
+20180220-17:24:23.304 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Ev7wrDEcQTY', name='What Got You Here Won_t Get You There'} 
+20180220-17:24:23.601 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='_2DR13Xs33hDD', name='Free Lunch'} 
+20180220-17:24:24.008 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='N57zDKMivzu0V', name='The Economist Book of Isms'} 
+20180220-17:24:24.073 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='L5_1xJ9iWfQ', name='Obliquity'} 
+20180220-17:24:25.840 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='YBywd3QSMsZ', name='The Age of Instability'} 
+20180220-17:24:27.295 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='xq_d6K7aAyHwX', name='Selected'} 
+20180220-17:24:27.433 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='RPp_132f4Jcw7', name='Mojo'} 
+20180220-17:24:28.319 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='xo_M7d-FbH6', name='The Economist: Coaching and Mentoring'} 
+20180220-17:24:28.369 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='B57xyLzi6XIxm', name='The Decision Book'} 
+20180220-17:24:29.015 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='x1_96pNc1xIOq', name='Why Nations Fail'} 
+20180220-17:24:30.608 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='1w7Dy_5tvTr', name='The Economist Guide to Decision-Making'} 
+20180220-17:24:30.656 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='xv_M-29coEcR6', name='The Economist Guide to Managing Growth'} 
+20180220-17:24:30.954 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='3v7_xd9cnvtDd', name='What Management Is'} 
+20180220-17:24:31.019 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='dmNPnrVT9vT-W', name='Good Strategy/Bad Strategy'} 
+20180220-17:24:31.527 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='PKq813rfbmcZb', name='The American Phoenix'} 
+20180220-17:24:31.537 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='_nOPovmsbix', name='From Village School to Global Brand'} 
+20180220-17:24:33.901 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='3M7yDomcoUr', name='The Economist: Modern Warfare, Intelligence and Deterrence'} 
+20180220-17:24:34.489 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='YByw13QSJpI4K', name='Africa_s Future: Darkness to Destiny'} 
+20180220-17:24:34.727 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='N-7QKJnfZNf8Y', name='The Economist: Megachange'} 
+20180220-17:24:34.844 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='YKBV13EfNwuzx', name='Swiss Made'} 
+20180220-17:24:35.010 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='NP7NLRmfLdf9p', name='The Economist: Managing Uncertainty'} 
+20180220-17:24:35.076 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='7_d3EpnfvmC1y', name='The Economist Book of Business Quotations'} 
+20180220-17:24:35.186 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Bw7OvJxt4SW', name='Wait'} 
+20180220-17:24:37.036 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='E57xwJ3iqsX', name='The Economist: Pocket World in Figures 2013'} 
+20180220-17:24:37.929 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='vm_zdWJT0KiDm', name='Uncommon Sense, Common Nonsense'} 
+20180220-17:24:38.056 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='K80n5votW-UZK', name='The Economist Guide to Commodities'} 
+20180220-17:24:39.191 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Br0vqBdSOys-E', name='Investing in Change'} 
+20180220-17:24:39.628 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Bv7wrDEc7AI86', name='Inside the Box'} 
+20180220-17:24:39.647 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='3M7yDomcMu9', name='The Change Book'} 
+20180220-17:24:40.632 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='qvWzwbrcKfP', name='The Economist Guide to Project Management  2nd Edition '} 
+20180220-17:24:40.659 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='B5_1xJ9iXS_', name='The Unpublished David Ogilvy'} 
+20180220-17:24:41.083 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='9_7d-pnfZEa-o', name='Surviving the Debt Storm'} 
+20180220-17:24:41.128 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='x-_NJYMf26HDM', name='Fans Not Customers'} 
+20180220-17:24:41.362 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='mwXVxB0tE6S9L', name='Enterprise Rules'} 
+20180220-17:24:42.464 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='5d9QBn3H2Cd', name='Managing Others: The Organisational Essentials'} 
+20180220-17:24:43.507 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='mrVWdzqSAtr', name='Managing Others: Teams and Individuals'} 
+20180220-17:24:43.526 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='x3_N6nYt6Hy', name='Managing Yourself'} 
+20180220-17:24:43.635 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='PKq813rfmab', name='Campaign It!'} 
+20180220-17:24:43.959 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='1-20pGKfPTr', name='Key Account Management'} 
+20180220-17:24:44.330 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='E5_1xJ9iNzi2q', name='Ultimate Aptitude Tests'} 
+20180220-17:24:45.073 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='wo_M7KbHY_CQR', name='Management Level Psychometric Assessments'} 
+20180220-17:24:45.464 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='OdnQ13RI0zhp-', name='Ultimate Psychometric Tests'} 
+20180220-17:24:45.807 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='n62zB_WuPosLp', name='Developing Mental Toughness'} 
+20180220-17:24:46.051 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='r8ZxzKbCZCA', name='Ultimate IQ Tests'} 
+20180220-17:24:46.502 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='D5_1xJzsz3I-Z', name='Brand Together'} 
+20180220-17:24:47.439 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='4o3JqG2HKUv', name='Digital Wars'} 
+20180220-17:24:47.753 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Q97QKJbcVQcGp', name='Brandwashed'} 
+20180220-17:24:48.452 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='G57zbK9s5Tb', name='Apprenticeships'} 
+20180220-17:24:48.488 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='K57xwJqs9Ux', name='Ultimate New Job'} 
+20180220-17:24:49.068 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='V-AE132cqBaDW', name='Readymade CVs'} 
+20180220-17:24:49.082 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='yL_DGV1svaB', name='IT Governance'} 
+20180220-17:24:51.654 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='wn_0dKPt4Fq', name='Ultimate Interview'} 
+20180220-17:24:52.158 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='yp_M62NiEa-', name='Understanding Digital Marketing'} 
+20180220-17:24:52.660 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='w62dB_WuVDCWy', name='Adaptability'} 
+20180220-17:24:52.764 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='0E7dbYPHPDFY2', name='Essay Writing Skills'} 
+20180220-17:24:53.012 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='OP7dGJ-cvNfVJ', name='Maritime Logistics'} 
+20180220-17:24:53.208 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='K87MzJLCw-Syp', name='The New CFOs'} 
+20180220-17:24:53.709 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='2r79w5PTK9s2o', name='Walmart'} 
+20180220-17:24:55.796 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='b3LZ5pouG4IK2', name='Ultimate Job Search'} 
+20180220-17:24:55.876 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='KP7RdM2c6UK', name='How the Stock Market Works'} 
+20180220-17:24:56.285 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Dm73Lb1U0_t1q', name='The Vocational Assessor Handbook'} 
+20180220-17:24:56.693 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Q97QKJbcxyCbn', name='The Business Plan Workbook'} 
+20180220-17:24:56.710 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='QPm51JLcMFY', name='Management Stripped Bare'} 
+20180220-17:24:57.004 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='2r79w5PTOZu05', name='Implementing Strategic Change'} 
+20180220-17:24:57.874 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='G57dwJqsJyizm', name='Shopper Marketing'} 
+20180220-17:25:02.399 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - All books retrieved in: 0hours 0min 55secs 
+20180220-17:30:03.744 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - 100 actions/books ready to be performed/retrieved! 
+20180220-17:30:03.792 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='1AYqmO7hoZT6p', name='The Dragon and the Elephant'} 
+20180220-17:30:03.792 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='2r79w5AINrF0_', name='The Economist: Economics: An A-Z Guide'} 
+20180220-17:30:03.792 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='qL_DGVWa4xuQX', name='The Economist: Successful Strategy Execution'} 
+20180220-17:30:03.792 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Ep0L5J1aKsE', name='The Fish Rots From The Head'} 
+20180220-17:30:03.792 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='QPp_13RU16Sv1', name='Managing Directors'} 
+20180220-17:30:03.792 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='_Xwz13rhKKapp', name='City State'} 
+20180220-17:30:03.792 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Bq75bAyfw1iMW', name='The Economist Guide To Analysing Companies'} 
+20180220-17:30:03.792 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='oR94BXnuzmsoP', name='The Economist: Investment: An A-Z Guide'} 
+20180220-17:30:05.385 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='n62zB_Qsdps0N', name='The Green Guide For Business'} 
+20180220-17:30:06.498 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='XKb813QUdSW', name='The 48 Laws Of Power'} 
+20180220-17:30:06.987 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='-o3JbG5C-Sx', name='The Game Changer'} 
+20180220-17:30:07.516 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='827wAm3iAZh7o', name='The 33 Strategies Of War'} 
+20180220-17:30:07.894 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='2r79w5AI3UV', name='The  Mis Behaviour of Markets'} 
+20180220-17:30:08.103 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='4D71GqocOC3', name='Buzz'} 
+20180220-17:30:08.565 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='8D71GqocyZFb2', name='The Economist Guide To Economic Indicators'} 
+20180220-17:30:10.065 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='boP1pwvCRpIxM', name='Rules Are Not Enough'} 
+20180220-17:30:10.109 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='r8ZxzK0t-pu1W', name='The Economist Guide To Supply Chain Management'} 
+20180220-17:30:10.937 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='wn_0dKJipzFyr', name='Supercorp'} 
+20180220-17:30:11.122 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='X9zA13xUMmC7A', name='The 50th Law'} 
+20180220-17:30:12.029 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='XXwz13Ni2S4', name='The Impoverishment of Nations'} 
+20180220-17:30:12.549 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='rL1yAYqh5co', name='The Economist: The World of Business'} 
+20180220-17:30:14.538 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='G97QKJdUNt1', name='Tell to Win'} 
+20180220-17:30:14.879 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='prVWvz1I2C-', name='The Question Book'} 
+20180220-17:30:14.949 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='0o3JqG5C31hYR', name='On the Fault Line'} 
+20180220-17:30:15.353 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='4N7_drBCOJFVw', name='Winning Without Losing'} 
+20180220-17:30:15.726 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='x79ymMlhb8F6Z', name='The Unwritten Laws of Finance and Investment'} 
+20180220-17:30:16.472 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='zbn-rMRhWwfxo', name='The Economist: Brands and Branding'} 
+20180220-17:30:17.669 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='QPm51JNUVOF2E', name='The Economist: Business Consulting'} 
+20180220-17:30:18.482 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='OP7BGJ5UVaZ', name='The Economist: Business Strategy'} 
+20180220-17:30:18.515 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='vr8QwJMSAeHqo', name='The Economist: Economics'} 
+20180220-17:30:18.527 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='4N7_JrBCnOUVo', name='Mapping The Markets'} 
+20180220-17:30:19.546 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='4v7_x52fQCm', name='The Economist Guide to Organisation Design'} 
+20180220-17:30:20.071 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='0-3JqG5U3Iy', name='The Economist Guide to Management Ideas and Gurus'} 
+20180220-17:30:20.233 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='yp_M62Qa-xcdm', name='Think Globally, Spend Locally'} 
+20180220-17:30:20.276 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='7q7Pv_9aJFz', name='The Economist: Directors: An A-Z Guide'} 
+20180220-17:30:20.792 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Ev7wrDEcQTY', name='What Got You Here Won_t Get You There'} 
+20180220-17:30:21.700 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='_2DR13Xs33hDD', name='Free Lunch'} 
+20180220-17:30:22.584 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='N57zDKMivzu0V', name='The Economist Book of Isms'} 
+20180220-17:30:22.676 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='L5_1xJ9iWfQ', name='Obliquity'} 
+20180220-17:30:23.722 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='YBywd3QSMsZ', name='The Age of Instability'} 
+20180220-17:30:25.896 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='xq_d6K7aAyHwX', name='Selected'} 
+20180220-17:30:25.975 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='RPp_132f4Jcw7', name='Mojo'} 
+20180220-17:30:26.353 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='xo_M7d-FbH6', name='The Economist: Coaching and Mentoring'} 
+20180220-17:30:26.361 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='B57xyLzi6XIxm', name='The Decision Book'} 
+20180220-17:30:26.581 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='x1_96pNc1xIOq', name='Why Nations Fail'} 
+20180220-17:30:28.826 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='1w7Dy_5tvTr', name='The Economist Guide to Decision-Making'} 
+20180220-17:30:28.967 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='xv_M-29coEcR6', name='The Economist Guide to Managing Growth'} 
+20180220-17:30:29.358 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='3v7_xd9cnvtDd', name='What Management Is'} 
+20180220-17:30:29.454 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='dmNPnrVT9vT-W', name='Good Strategy/Bad Strategy'} 
+20180220-17:30:29.611 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='PKq813rfbmcZb', name='The American Phoenix'} 
+20180220-17:30:30.172 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='_nOPovmsbix', name='From Village School to Global Brand'} 
+20180220-17:30:32.281 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='3M7yDomcoUr', name='The Economist: Modern Warfare, Intelligence and Deterrence'} 
+20180220-17:30:32.436 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='YByw13QSJpI4K', name='Africa_s Future: Darkness to Destiny'} 
+20180220-17:30:32.499 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='N-7QKJnfZNf8Y', name='The Economist: Megachange'} 
+20180220-17:30:32.915 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='YKBV13EfNwuzx', name='Swiss Made'} 
+20180220-17:30:33.104 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='NP7NLRmfLdf9p', name='The Economist: Managing Uncertainty'} 
+20180220-17:30:33.174 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='7_d3EpnfvmC1y', name='The Economist Book of Business Quotations'} 
+20180220-17:30:33.838 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Bw7OvJxt4SW', name='Wait'} 
+20180220-17:30:35.296 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='E57xwJ3iqsX', name='The Economist: Pocket World in Figures 2013'} 
+20180220-17:30:35.758 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='vm_zdWJT0KiDm', name='Uncommon Sense, Common Nonsense'} 
+20180220-17:30:35.966 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='K80n5votW-UZK', name='The Economist Guide to Commodities'} 
+20180220-17:30:37.022 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Br0vqBdSOys-E', name='Investing in Change'} 
+20180220-17:30:38.098 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Bv7wrDEc7AI86', name='Inside the Box'} 
+20180220-17:30:38.223 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='3M7yDomcMu9', name='The Change Book'} 
+20180220-17:30:38.840 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='qvWzwbrcKfP', name='The Economist Guide to Project Management  2nd Edition '} 
+20180220-17:30:38.931 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='B5_1xJ9iXS_', name='The Unpublished David Ogilvy'} 
+20180220-17:30:39.109 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='9_7d-pnfZEa-o', name='Surviving the Debt Storm'} 
+20180220-17:30:39.220 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='x-_NJYMf26HDM', name='Fans Not Customers'} 
+20180220-17:30:39.241 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='mwXVxB0tE6S9L', name='Enterprise Rules'} 
+20180220-17:30:40.892 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='5d9QBn3H2Cd', name='Managing Others: The Organisational Essentials'} 
+20180220-17:30:41.087 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='mrVWdzqSAtr', name='Managing Others: Teams and Individuals'} 
+20180220-17:30:41.782 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='x3_N6nYt6Hy', name='Managing Yourself'} 
+20180220-17:30:41.881 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='PKq813rfmab', name='Campaign It!'} 
+20180220-17:30:41.898 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='1-20pGKfPTr', name='Key Account Management'} 
+20180220-17:30:42.749 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='E5_1xJ9iNzi2q', name='Ultimate Aptitude Tests'} 
+20180220-17:30:43.553 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='wo_M7KbHY_CQR', name='Management Level Psychometric Assessments'} 
+20180220-17:30:43.772 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='OdnQ13RI0zhp-', name='Ultimate Psychometric Tests'} 
+20180220-17:30:43.966 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='n62zB_WuPosLp', name='Developing Mental Toughness'} 
+20180220-17:30:44.040 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='r8ZxzKbCZCA', name='Ultimate IQ Tests'} 
+20180220-17:30:44.323 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='D5_1xJzsz3I-Z', name='Brand Together'} 
+20180220-17:30:45.823 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='4o3JqG2HKUv', name='Digital Wars'} 
+20180220-17:30:46.145 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Q97QKJbcVQcGp', name='Brandwashed'} 
+20180220-17:30:46.286 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='G57zbK9s5Tb', name='Apprenticeships'} 
+20180220-17:30:46.704 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='K57xwJqs9Ux', name='Ultimate New Job'} 
+20180220-17:30:46.769 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='V-AE132cqBaDW', name='Readymade CVs'} 
+20180220-17:30:46.895 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='yL_DGV1svaB', name='IT Governance'} 
+20180220-17:30:49.883 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='wn_0dKPt4Fq', name='Ultimate Interview'} 
+20180220-17:30:49.977 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='yp_M62NiEa-', name='Understanding Digital Marketing'} 
+20180220-17:30:51.022 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='w62dB_WuVDCWy', name='Adaptability'} 
+20180220-17:30:51.265 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='0E7dbYPHPDFY2', name='Essay Writing Skills'} 
+20180220-17:30:51.283 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='OP7dGJ-cvNfVJ', name='Maritime Logistics'} 
+20180220-17:30:51.689 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='K87MzJLCw-Syp', name='The New CFOs'} 
+20180220-17:30:51.737 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='2r79w5PTK9s2o', name='Walmart'} 
+20180220-17:30:53.996 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='b3LZ5pouG4IK2', name='Ultimate Job Search'} 
+20180220-17:30:54.263 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='KP7RdM2c6UK', name='How the Stock Market Works'} 
+20180220-17:30:54.644 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Dm73Lb1U0_t1q', name='The Vocational Assessor Handbook'} 
+20180220-17:30:54.955 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Q97QKJbcxyCbn', name='The Business Plan Workbook'} 
+20180220-17:30:55.060 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='QPm51JLcMFY', name='Management Stripped Bare'} 
+20180220-17:30:55.468 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='2r79w5PTOZu05', name='Implementing Strategic Change'} 
+20180220-17:30:55.852 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='G57dwJqsJyizm', name='Shopper Marketing'} 
+20180220-17:31:00.762 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - All books retrieved in: 0hours 0min 58secs 
+20180220-17:34:16.850 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - 100 actions/books ready to be performed/retrieved! 
+20180220-17:34:16.915 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='1AYqmO7hoZT6p', name='The Dragon and the Elephant'} 
+20180220-17:34:16.915 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='oR94BXnuzmsoP', name='The Economist: Investment: An A-Z Guide'} 
+20180220-17:34:16.915 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Bq75bAyfw1iMW', name='The Economist Guide To Analysing Companies'} 
+20180220-17:34:16.915 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='QPp_13RU16Sv1', name='Managing Directors'} 
+20180220-17:34:16.915 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Ep0L5J1aKsE', name='The Fish Rots From The Head'} 
+20180220-17:34:16.915 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='qL_DGVWa4xuQX', name='The Economist: Successful Strategy Execution'} 
+20180220-17:34:16.915 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='_Xwz13rhKKapp', name='City State'} 
+20180220-17:34:16.915 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='2r79w5AINrF0_', name='The Economist: Economics: An A-Z Guide'} 
+20180220-17:36:13.961 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - 100 actions/books ready to be performed/retrieved! 
+20180220-17:36:14.017 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='qL_DGVWa4xuQX', name='The Economist: Successful Strategy Execution'} 
+20180220-17:36:14.017 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='QPp_13RU16Sv1', name='Managing Directors'} 
+20180220-17:36:14.017 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='_Xwz13rhKKapp', name='City State'} 
+20180220-17:36:14.017 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='2r79w5AINrF0_', name='The Economist: Economics: An A-Z Guide'} 
+20180220-17:36:14.017 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='1AYqmO7hoZT6p', name='The Dragon and the Elephant'} 
+20180220-17:36:14.017 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='oR94BXnuzmsoP', name='The Economist: Investment: An A-Z Guide'} 
+20180220-17:36:14.017 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Ep0L5J1aKsE', name='The Fish Rots From The Head'} 
+20180220-17:36:14.017 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Bq75bAyfw1iMW', name='The Economist Guide To Analysing Companies'} 
+20180220-17:37:05.106 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - 100 actions/books ready to be performed/retrieved! 
+20180220-17:37:05.150 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Bq75bAyfw1iMW', name='The Economist Guide To Analysing Companies'} 
+20180220-17:37:05.150 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='qL_DGVWa4xuQX', name='The Economist: Successful Strategy Execution'} 
+20180220-17:37:05.150 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='2r79w5AINrF0_', name='The Economist: Economics: An A-Z Guide'} 
+20180220-17:37:05.150 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='1AYqmO7hoZT6p', name='The Dragon and the Elephant'} 
+20180220-17:37:05.150 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Ep0L5J1aKsE', name='The Fish Rots From The Head'} 
+20180220-17:37:05.150 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='_Xwz13rhKKapp', name='City State'} 
+20180220-17:37:05.150 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='oR94BXnuzmsoP', name='The Economist: Investment: An A-Z Guide'} 
+20180220-17:37:05.150 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='QPp_13RU16Sv1', name='Managing Directors'} 
+20180220-17:37:06.762 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='n62zB_Qsdps0N', name='The Green Guide For Business'} 
+20180220-17:37:07.675 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='XKb813QUdSW', name='The 48 Laws Of Power'} 
+20180220-17:37:08.846 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='-o3JbG5C-Sx', name='The Game Changer'} 
+20180220-17:37:09.291 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='827wAm3iAZh7o', name='The 33 Strategies Of War'} 
+20180220-17:37:09.718 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='2r79w5AI3UV', name='The  Mis Behaviour of Markets'} 
+20180220-17:37:10.224 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='4D71GqocOC3', name='Buzz'} 
+20180220-17:37:10.807 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='8D71GqocyZFb2', name='The Economist Guide To Economic Indicators'} 
+20180220-17:37:10.933 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='boP1pwvCRpIxM', name='Rules Are Not Enough'} 
+20180220-17:37:11.124 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='r8ZxzK0t-pu1W', name='The Economist Guide To Supply Chain Management'} 
+20180220-17:37:12.783 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='wn_0dKJipzFyr', name='Supercorp'} 
+20180220-17:37:13.006 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='X9zA13xUMmC7A', name='The 50th Law'} 
+20180220-17:37:13.929 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='XXwz13Ni2S4', name='The Impoverishment of Nations'} 
+20180220-17:37:14.155 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='rL1yAYqh5co', name='The Economist: The World of Business'} 
+20180220-17:37:15.176 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='G97QKJdUNt1', name='Tell to Win'} 
+20180220-17:37:15.483 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='prVWvz1I2C-', name='The Question Book'} 
+20180220-17:37:16.899 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='0o3JqG5C31hYR', name='On the Fault Line'} 
+20180220-17:37:17.308 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='4N7_drBCOJFVw', name='Winning Without Losing'} 
+20180220-17:37:17.553 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='x79ymMlhb8F6Z', name='The Unwritten Laws of Finance and Investment'} 
+20180220-17:37:17.615 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='zbn-rMRhWwfxo', name='The Economist: Brands and Branding'} 
+20180220-17:37:17.828 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='QPm51JNUVOF2E', name='The Economist: Business Consulting'} 
+20180220-17:37:19.872 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='OP7BGJ5UVaZ', name='The Economist: Business Strategy'} 
+20180220-17:37:20.436 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='vr8QwJMSAeHqo', name='The Economist: Economics'} 
+20180220-17:37:20.467 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='4N7_JrBCnOUVo', name='Mapping The Markets'} 
+20180220-17:37:20.618 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='4v7_x52fQCm', name='The Economist Guide to Organisation Design'} 
+20180220-17:37:20.799 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='0-3JqG5U3Iy', name='The Economist Guide to Management Ideas and Gurus'} 
+20180220-17:37:21.280 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='yp_M62Qa-xcdm', name='Think Globally, Spend Locally'} 
+20180220-17:37:21.302 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='7q7Pv_9aJFz', name='The Economist: Directors: An A-Z Guide'} 
+20180220-17:37:22.371 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Ev7wrDEcQTY', name='What Got You Here Won_t Get You There'} 
+20180220-17:37:22.985 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='_2DR13Xs33hDD', name='Free Lunch'} 
+20180220-17:37:23.388 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='N57zDKMivzu0V', name='The Economist Book of Isms'} 
+20180220-17:37:23.589 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='L5_1xJ9iWfQ', name='Obliquity'} 
+20180220-17:37:24.634 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='YBywd3QSMsZ', name='The Age of Instability'} 
+20180220-17:37:25.536 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='xq_d6K7aAyHwX', name='Selected'} 
+20180220-17:37:26.991 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='RPp_132f4Jcw7', name='Mojo'} 
+20180220-17:37:27.505 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='xo_M7d-FbH6', name='The Economist: Coaching and Mentoring'} 
+20180220-17:37:27.570 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='B57xyLzi6XIxm', name='The Decision Book'} 
+20180220-17:37:27.772 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='x1_96pNc1xIOq', name='Why Nations Fail'} 
+20180220-17:37:29.437 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='1w7Dy_5tvTr', name='The Economist Guide to Decision-Making'} 
+20180220-17:37:29.751 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='xv_M-29coEcR6', name='The Economist Guide to Managing Growth'} 
+20180220-17:37:30.374 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='3v7_xd9cnvtDd', name='What Management Is'} 
+20180220-17:37:30.380 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='dmNPnrVT9vT-W', name='Good Strategy/Bad Strategy'} 
+20180220-17:37:30.600 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='PKq813rfbmcZb', name='The American Phoenix'} 
+20180220-17:37:30.655 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='_nOPovmsbix', name='From Village School to Global Brand'} 
+20180220-17:37:33.522 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='3M7yDomcoUr', name='The Economist: Modern Warfare, Intelligence and Deterrence'} 
+20180220-17:37:33.549 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='YByw13QSJpI4K', name='Africa_s Future: Darkness to Destiny'} 
+20180220-17:37:33.627 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='N-7QKJnfZNf8Y', name='The Economist: Megachange'} 
+20180220-17:37:33.702 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='YKBV13EfNwuzx', name='Swiss Made'} 
+20180220-17:37:33.934 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='NP7NLRmfLdf9p', name='The Economist: Managing Uncertainty'} 
+20180220-17:37:34.230 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='7_d3EpnfvmC1y', name='The Economist Book of Business Quotations'} 
+20180220-17:37:34.590 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Bw7OvJxt4SW', name='Wait'} 
+20180220-17:37:36.794 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='E57xwJ3iqsX', name='The Economist: Pocket World in Figures 2013'} 
+20180220-17:37:36.908 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='vm_zdWJT0KiDm', name='Uncommon Sense, Common Nonsense'} 
+20180220-17:37:37.356 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='K80n5votW-UZK', name='The Economist Guide to Commodities'} 
+20180220-17:37:37.725 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Br0vqBdSOys-E', name='Investing in Change'} 
+20180220-17:37:37.978 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Bv7wrDEc7AI86', name='Inside the Box'} 
+20180220-17:37:39.543 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='3M7yDomcMu9', name='The Change Book'} 
+20180220-17:37:39.707 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='qvWzwbrcKfP', name='The Economist Guide to Project Management  2nd Edition '} 
+20180220-17:37:39.910 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='B5_1xJ9iXS_', name='The Unpublished David Ogilvy'} 
+20180220-17:37:40.126 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='9_7d-pnfZEa-o', name='Surviving the Debt Storm'} 
+20180220-17:37:40.208 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='x-_NJYMf26HDM', name='Fans Not Customers'} 
+20180220-17:37:40.848 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='mwXVxB0tE6S9L', name='Enterprise Rules'} 
+20180220-17:37:41.709 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='5d9QBn3H2Cd', name='Managing Others: The Organisational Essentials'} 
+20180220-17:37:42.042 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='mrVWdzqSAtr', name='Managing Others: Teams and Individuals'} 
+20180220-17:37:42.043 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='x3_N6nYt6Hy', name='Managing Yourself'} 
+20180220-17:37:42.631 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='PKq813rfmab', name='Campaign It!'} 
+20180220-17:37:43.644 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='1-20pGKfPTr', name='Key Account Management'} 
+20180220-17:37:43.820 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='E5_1xJ9iNzi2q', name='Ultimate Aptitude Tests'} 
+20180220-17:37:44.486 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='wo_M7KbHY_CQR', name='Management Level Psychometric Assessments'} 
+20180220-17:37:44.582 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='OdnQ13RI0zhp-', name='Ultimate Psychometric Tests'} 
+20180220-17:37:44.603 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='n62zB_WuPosLp', name='Developing Mental Toughness'} 
+20180220-17:37:44.889 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='r8ZxzKbCZCA', name='Ultimate IQ Tests'} 
+20180220-17:37:45.141 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='D5_1xJzsz3I-Z', name='Brand Together'} 
+20180220-17:37:46.890 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='4o3JqG2HKUv', name='Digital Wars'} 
+20180220-17:37:47.190 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Q97QKJbcVQcGp', name='Brandwashed'} 
+20180220-17:37:47.308 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='G57zbK9s5Tb', name='Apprenticeships'} 
+20180220-17:37:47.656 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='K57xwJqs9Ux', name='Ultimate New Job'} 
+20180220-17:37:47.826 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='V-AE132cqBaDW', name='Readymade CVs'} 
+20180220-17:37:48.492 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='yL_DGV1svaB', name='IT Governance'} 
+20180220-17:37:50.916 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='wn_0dKPt4Fq', name='Ultimate Interview'} 
+20180220-17:37:51.175 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='yp_M62NiEa-', name='Understanding Digital Marketing'} 
+20180220-17:37:51.756 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='w62dB_WuVDCWy', name='Adaptability'} 
+20180220-17:37:52.246 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='0E7dbYPHPDFY2', name='Essay Writing Skills'} 
+20180220-17:37:52.544 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='OP7dGJ-cvNfVJ', name='Maritime Logistics'} 
+20180220-17:37:52.646 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='K87MzJLCw-Syp', name='The New CFOs'} 
+20180220-17:37:52.751 [Harvester-BlueBottle] [orker-5] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='2r79w5PTK9s2o', name='Walmart'} 
+20180220-17:37:55.314 [Harvester-BlueBottle] [orker-1] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='b3LZ5pouG4IK2', name='Ultimate Job Search'} 
+20180220-17:37:55.554 [Harvester-BlueBottle] [orker-3] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='KP7RdM2c6UK', name='How the Stock Market Works'} 
+20180220-17:37:55.815 [Harvester-BlueBottle] [orker-6] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Dm73Lb1U0_t1q', name='The Vocational Assessor Handbook'} 
+20180220-17:37:56.063 [Harvester-BlueBottle] [orker-4] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='Q97QKJbcxyCbn', name='The Business Plan Workbook'} 
+20180220-17:37:56.556 [Harvester-BlueBottle] [orker-7] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='QPm51JLcMFY', name='Management Stripped Bare'} 
+20180220-17:37:56.617 [Harvester-BlueBottle] [orker-2] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='2r79w5PTOZu05', name='Implementing Strategic Change'} 
+20180220-17:37:57.056 [Harvester-BlueBottle] [orker-0] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - Retrieving book: Book{hash='G57dwJqsJyizm', name='Shopper Marketing'} 
+20180220-17:38:02.175 [Harvester-BlueBottle] [main] [34mINFO [0;39m [36mo.l.b.s.ImportService[0;39m - All books retrieved in: 0hours 0min 58secs 

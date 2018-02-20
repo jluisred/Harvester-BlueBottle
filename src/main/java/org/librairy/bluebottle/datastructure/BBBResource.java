@@ -25,10 +25,19 @@ public class BBBResource implements Serializable{
 	String status;
 	int shares;
 	boolean reader;
-	
+	String format;
+
 	//To be filled up in collection
 	List<DataChapter> chapters= null;
-	
+
+	public String getFormat() {
+		return format;
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
+	}
+
 	public String getHash() {
 		return hash;
 	}
